@@ -32,8 +32,7 @@ public class GameControl : MonoBehaviour
 
     private float nextScoreIncrease = 0f;
     
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (instance == null) instance = this;
         else if (instance != this) Destroy(gameObject);
@@ -47,7 +46,7 @@ public class GameControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!gameStopped) IncreaseYourScore();
         highScoreText.text = "High Score: " + highScore;
@@ -57,7 +56,7 @@ public class GameControl : MonoBehaviour
         if (Time.unscaledTime > nextBoost && !gameStopped) BoostTime();
     }
 
-    public void WolfieCrushes()
+    public void Loss()
     {
         if (yourScore > highScore) PlayerPrefs.SetInt("highScore", yourScore);
         Time.timeScale = 0;

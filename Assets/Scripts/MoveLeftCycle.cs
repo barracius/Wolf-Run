@@ -7,9 +7,8 @@ public class MoveLeftCycle : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
 
     [SerializeField] private float leftWayPointX = -8f, rightWayPointX = 8f;
-
-    // Update is called once per frame
-    void Update()
+    
+    private void FixedUpdate()
     {
         var transform1 = transform;
         var position = transform1.position;

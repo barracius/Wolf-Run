@@ -20,11 +20,4 @@ public class ObstacleControl : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.name.Equals("Wolfie"))
-            GameControl.instance.WolfieCrushes();
-    }
-    
 }
