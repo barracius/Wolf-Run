@@ -15,9 +15,5 @@ public class ObstacleControl : MonoBehaviour
         transform1.position = position;
         if (transform.position.x < -13f)
             Destroy(gameObject);
-        if (Input.GetKey("up"))
-        {
-            Destroy(gameObject);
-        }
     }
 }
