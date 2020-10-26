@@ -1,22 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MainController : MonoBehaviour
+namespace Wolfie
 {
-    [SerializeField] internal CollisionController collisionController;
-    // Start is called before the first frame update
-    void Start()
+    public class MainController : MonoBehaviour
     {
-        
-    }
+        [SerializeField] internal CollisionController collisionController;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (collisionController.onFire)
+        private void Update()
         {
-            GameControl.instance.Loss();
+            if (collisionController.OnFire)
+            {
+                GameControl.Instance.Loss();
+            }
         }
     }
 }

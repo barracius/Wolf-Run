@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CollisionController : MonoBehaviour
+namespace Wolfie
 {
-    [SerializeField] private MainController _mainController;
-    internal bool onFire;
-    internal bool stunned;
-    private void OnCollisionEnter2D(Collision2D other)
+    public class CollisionController : MonoBehaviour
     {
-        if (other.gameObject.CompareTag("Fire"))
+        [SerializeField] private MainController mainController;
+        internal bool OnFire;
+        internal bool Stunned;
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            onFire = true;
-        }
+            if (other.gameObject.CompareTag("Fire"))
+            {
+                OnFire = true;
+            }
 
-        if (other.gameObject.CompareTag("Obstacle"))
-        {
-            Destroy(other.gameObject);
-            stunned = true;
+            if (other.gameObject.tag.Contains("Obstacle"))
+            {
+                Destroy(other.gameObject);
+                Stunned = true;
+            }
         }
     }
 }
