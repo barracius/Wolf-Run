@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Wolfie
 {
@@ -12,6 +13,16 @@ namespace Wolfie
             {
                 transform.Translate(MovementSpeed * Time.deltaTime * Vector3.left);
             }
+        }
+
+//        private void Update()
+//        {
+//            Bite();
+//        }
+
+        private void Bite()
+        {
+            throw new NotImplementedException();
         }
     }
 }

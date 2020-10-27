@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1157116011369849067}
   m_Layer: 0
   m_Name: BiteObstacle
-  m_TagString: Obstacle
+  m_TagString: Obstacle_Bite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

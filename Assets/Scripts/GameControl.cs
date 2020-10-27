@@ -26,7 +26,7 @@ public class GameControl : MonoBehaviour
 
     private int _highScore, _yourScore;
 
-    private static bool _gameStopped;
+    internal static bool GameStopped;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class GameControl : MonoBehaviour
         else if (Instance != this) Destroy(gameObject);
         restartButton.SetActive(false);
         _yourScore = 0;
-        _gameStopped = false;
+        GameStopped = false;
         Time.timeScale = 1f;
         _highScore = PlayerPrefs.GetInt("highScore");
         _nextSpawn = Time.time + spawnRate;
@@ -43,19 +43,19 @@ public class GameControl : MonoBehaviour
     
     private void Update()
     {
-        if (!_gameStopped) IncreaseYourScore();
+        if (!GameStopped) IncreaseYourScore();
         highScoreText.text = "High Score: " + _highScore;
         yourScoreText.text = "Your Score: " + _yourScore;
 
         if (Time.time > _nextSpawn) SpawnObstacle();
-        if (Time.unscaledTime > _nextBoost && !_gameStopped) BoostTime();
+        if (Time.unscaledTime > _nextBoost && !GameStopped) BoostTime();
     }
 
     public void Loss()
     {
         if (_yourScore > _highScore) PlayerPrefs.SetInt("highScore", _yourScore);
         Time.timeScale = 0;
-        _gameStopped = true;
+        GameStopped = true;
         restartButton.SetActive(true);
     }
 
