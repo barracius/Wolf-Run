@@ -6,26 +6,21 @@ namespace Wolfie
     public class InputController : MonoBehaviour
     {
         [SerializeField] private MainController mainController;
-        internal bool Biting;
-        internal bool Jumping;
-        internal bool Sliding;
 
         private void Update()
         {
-            if (!GameControl.GameStopped && mainController.state == "running")
+            if (GameControl.GameStopped || mainController.state != "running") return;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    Biting = true;
-                }
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    Jumping = true;
-                }
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    Sliding = true;
-                }
+                mainController.state = "biting1";
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                mainController.state = "jumping1";
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                mainController.state = "sliding1";
             }
         }
     }

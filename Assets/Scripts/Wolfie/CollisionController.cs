@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Wolfie
 {
@@ -18,6 +19,18 @@ namespace Wolfie
             {
                 Destroy(other.gameObject);
                 Stunned = true;
+            }
+
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                mainController.physicsController.IsJumping = false;
+            }
+
+            if (other.gameObject.CompareTag("PowerUp"))
+            {
+                GameControl.Instance.obstaclesInScene.RemoveAt(0);
+                Destroy(other.gameObject);
+                // Power def
             }
         }
     }

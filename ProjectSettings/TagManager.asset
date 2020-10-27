@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Fire
   - Obstacle_Bite
+  - Ground
+  - Obstacle_Jump
+  - Obstacle_Slide
+  - PowerUp
   layers:
   - Default
   - TransparentFX

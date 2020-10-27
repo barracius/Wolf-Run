@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +14,12 @@ public class ObstacleControl : MonoBehaviour
         var position = transform1.position;
         position = new Vector2(position.x + moveSpeed * Time.deltaTime, position.y);
         transform1.position = position;
-        if (transform.position.x < -13f)
-            Destroy(gameObject);
-        if (Input.GetKey("up"))
-        {
-            Destroy(gameObject);
-        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.transform.CompareTag("Fire")) return;
+        Destroy(gameObject); 
+        GameControl.Instance.obstaclesInScene.RemoveAt(0);
     }
 }
