@@ -10,12 +10,18 @@ namespace Wolfie
         [SerializeField] internal InputController inputController;
         [SerializeField] internal PhysicsController physicsController;
         internal String state = "running";
+        public Rigidbody2D rb;
         private void Update()
         {
             if (collisionController.OnFire)
             {
                 GameControl.Instance.Loss();
             }
+        }
+
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody2D>();
         }
     }
 }

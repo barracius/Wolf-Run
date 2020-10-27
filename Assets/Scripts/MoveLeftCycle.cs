@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MoveLeftCycle : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 3;
 
-    [SerializeField] private float leftWayPointX = -8f, rightWayPointX = 8f;
+    [SerializeField] private float leftWayPointX = -13, rightWayPointX = 13;
     
     private void FixedUpdate()
     {

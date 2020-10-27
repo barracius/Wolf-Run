@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class GameControl : MonoBehaviour
     [SerializeField] private Text highScoreText;
 
     [SerializeField] private Text yourScoreText;
-
+    
     [SerializeField] private GameObject[] obstacles;
 
     [SerializeField] private Transform spawnPoint;
@@ -27,6 +28,8 @@ public class GameControl : MonoBehaviour
     private int _highScore, _yourScore;
 
     internal static bool GameStopped;
+    
+    public List<GameObject> obstaclesInScene;
 
     private void Start()
     {
@@ -36,6 +39,8 @@ public class GameControl : MonoBehaviour
         _yourScore = 0;
         GameStopped = false;
         Time.timeScale = 1f;
+        // RESET HIGH SCORE
+        //PlayerPrefs.SetInt("highScore", 0);
         _highScore = PlayerPrefs.GetInt("highScore");
         _nextSpawn = Time.time + spawnRate;
         _nextBoost = Time.unscaledTime + timeToBoost;
@@ -45,7 +50,11 @@ public class GameControl : MonoBehaviour
     {
         if (!GameStopped) IncreaseYourScore();
         highScoreText.text = "High Score: " + _highScore;
-        yourScoreText.text = "Your Score: " + _yourScore;
+        if (_yourScore >= 30)
+        {
+            yourScoreText.text = "Your Score: " + _yourScore + "\nCongratulations! You unlocked the next stage";
+        }
+        else yourScoreText.text = "Your Score: " + _yourScore;
 
         if (Time.time > _nextSpawn) SpawnObstacle();
         if (Time.unscaledTime > _nextBoost && !GameStopped) BoostTime();
@@ -62,8 +71,10 @@ public class GameControl : MonoBehaviour
     private void SpawnObstacle()
     {
         _nextSpawn = Time.time + spawnRate;
-        int randomObstacle = Random.Range(0, obstacles.Length);
-        Instantiate(obstacles[randomObstacle], spawnPoint.position, Quaternion.identity);
+        if (obstaclesInScene.Count != 0) return;
+        var randomObstacle = Random.Range(0, obstacles.Length);
+        var obstacle = obstacles[randomObstacle];
+        obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
     }
 
     private void BoostTime()
@@ -74,11 +85,9 @@ public class GameControl : MonoBehaviour
 
     private void IncreaseYourScore()
     {
-        if (Time.unscaledTime > _nextScoreIncrease)
-        {
-            _yourScore += 1;
-            _nextScoreIncrease = Time.unscaledTime + 1;
-        }
+        if (!(Time.unscaledTime > _nextScoreIncrease)) return;
+        _yourScore += 1;
+        _nextScoreIncrease = Time.unscaledTime + 1;
     }
 
     public void RestartGame()
