@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
-    public static GameControl instance = null;
+    public static GameControl Instance;
 
     [SerializeField] private GameObject restartButton;
 
@@ -19,70 +19,65 @@ public class GameControl : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
 
     [SerializeField] private float spawnRate = 2f;
-
-    private float nextSpawn;
-
+    
     [SerializeField] private float timeToBoost = 5f;
 
-    private float nextBoost;
+    private float _nextBoost, _nextScoreIncrease,  _nextSpawn;
 
-    private int highScore = 0, yourScore = 0;
+    private int _highScore, _yourScore;
 
-    public static bool gameStopped;
+    internal static bool GameStopped;
 
-    private float nextScoreIncrease = 0f;
-    
     private void Start()
     {
-        if (instance == null) instance = this;
-        else if (instance != this) Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else if (Instance != this) Destroy(gameObject);
         restartButton.SetActive(false);
-        yourScore = 0;
-        gameStopped = false;
+        _yourScore = 0;
+        GameStopped = false;
         Time.timeScale = 1f;
-        highScore = PlayerPrefs.GetInt("highScore");
-        nextSpawn = Time.time + spawnRate;
-        nextBoost = Time.unscaledTime + timeToBoost;
+        _highScore = PlayerPrefs.GetInt("highScore");
+        _nextSpawn = Time.time + spawnRate;
+        _nextBoost = Time.unscaledTime + timeToBoost;
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
-        if (!gameStopped) IncreaseYourScore();
-        highScoreText.text = "High Score: " + highScore;
-        yourScoreText.text = "Your Score: " + yourScore;
+        if (!GameStopped) IncreaseYourScore();
+        highScoreText.text = "High Score: " + _highScore;
+        yourScoreText.text = "Your Score: " + _yourScore;
 
-        if (Time.time > nextSpawn) SpawnObstacle();
-        if (Time.unscaledTime > nextBoost && !gameStopped) BoostTime();
+        if (Time.time > _nextSpawn) SpawnObstacle();
+        if (Time.unscaledTime > _nextBoost && !GameStopped) BoostTime();
     }
 
     public void Loss()
     {
-        if (yourScore > highScore) PlayerPrefs.SetInt("highScore", yourScore);
+        if (_yourScore > _highScore) PlayerPrefs.SetInt("highScore", _yourScore);
         Time.timeScale = 0;
-        gameStopped = true;
+        GameStopped = true;
         restartButton.SetActive(true);
     }
 
-    void SpawnObstacle()
+    private void SpawnObstacle()
     {
-        nextSpawn = Time.time + spawnRate;
+        _nextSpawn = Time.time + spawnRate;
         int randomObstacle = Random.Range(0, obstacles.Length);
         Instantiate(obstacles[randomObstacle], spawnPoint.position, Quaternion.identity);
     }
 
-    void BoostTime()
+    private void BoostTime()
     {
-        nextBoost = Time.unscaledTime + timeToBoost;
+        _nextBoost = Time.unscaledTime + timeToBoost;
         Time.timeScale += 0.25f;
     }
 
-    void IncreaseYourScore()
+    private void IncreaseYourScore()
     {
-        if (Time.unscaledTime > nextScoreIncrease)
+        if (Time.unscaledTime > _nextScoreIncrease)
         {
-            yourScore += 1;
-            nextScoreIncrease = Time.unscaledTime + 1;
+            _yourScore += 1;
+            _nextScoreIncrease = Time.unscaledTime + 1;
         }
     }
 

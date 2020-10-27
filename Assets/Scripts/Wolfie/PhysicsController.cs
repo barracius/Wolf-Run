@@ -1,16 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class PhysicsController : MonoBehaviour
+namespace Wolfie
 {
-    [SerializeField] private MainController _mainController;
-    private const int MovementSpeed = 5;
-    private void FixedUpdate()
+    public class PhysicsController : MonoBehaviour
     {
-        if (_mainController.collisionController.stunned)
+        [SerializeField] private MainController mainController;
+        private const int MovementSpeed = 5;
+        private void FixedUpdate()
         {
-            transform.Translate(MovementSpeed * Time.deltaTime * Vector3.left);
+            if (mainController.collisionController.Stunned)
+            {
+                transform.Translate(MovementSpeed * Time.deltaTime * Vector3.left);
+            }
+        }
+
+//        private void Update()
+//        {
+//            Bite();
+//        }
+
+        private void Bite()
+        {
+            throw new NotImplementedException();
         }
     }
 }
