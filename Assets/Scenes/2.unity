@@ -1178,6 +1178,7 @@ MonoBehaviour:
   spawnRate: 2
   timeToBoost: 5
   obstaclesInScene: []
+  numberOfStage: 2
 --- !u!4 &1215381176
 Transform:
   m_ObjectHideFlags: 0
