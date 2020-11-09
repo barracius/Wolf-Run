@@ -5,10 +5,10 @@ namespace Wolfie
 {
     public class MainController : MonoBehaviour
     {
-        [SerializeField] internal CollisionController collisionController;
-        [SerializeField] internal AudioController audioController;
-        [SerializeField] internal InputController inputController;
-        [SerializeField] internal PhysicsController physicsController;
+        [SerializeField] internal CollisionController collisionController = null;
+        [SerializeField] internal AudioController audioController = null;
+        [SerializeField] internal InputController inputController = null;
+        [SerializeField] internal PhysicsController physicsController = null;
         internal String state = "running";
         public Rigidbody2D rb;
         private void Update()

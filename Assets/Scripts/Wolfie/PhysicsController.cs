@@ -5,7 +5,7 @@ namespace Wolfie
 {
     public class PhysicsController : MonoBehaviour
     {
-        [SerializeField] private MainController mainController;
+        [SerializeField] private MainController mainController = null;
         [SerializeField] private float jumpHeight = 650; 
         private const int MovementSpeed = 5;
         internal bool IsJumping;

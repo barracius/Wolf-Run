@@ -4,12 +4,13 @@ namespace Wolfie
 {
     public class AudioController : MonoBehaviour
     {
-        [SerializeField] private MainController mainController;
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private AudioClip biteSound;
-        [SerializeField] private AudioClip jumpSound;
-        [SerializeField] private AudioClip slideSound;
-        [SerializeField] private AudioClip clockSound;
+        [SerializeField] private MainController mainController = null;
+        [SerializeField] private AudioSource audioSource = null;
+        [SerializeField] private AudioClip biteSound = null;
+        [SerializeField] private AudioClip jumpSound = null;
+        [SerializeField] private AudioClip slideSound = null;
+        [SerializeField] private AudioClip clockSound = null;
+        [SerializeField] private AudioClip shieldSound = null;
 
         private void Update()
         {

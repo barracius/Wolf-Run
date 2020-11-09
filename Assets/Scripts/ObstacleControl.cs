@@ -7,7 +7,6 @@ public class ObstacleControl : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = -5f;
 
-    // Update is called once per frame
     private void Update()
     {
         var transform1 = transform;

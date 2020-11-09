@@ -9,26 +9,20 @@ using UnityEngine.UIElements;
 public class GameControl : MonoBehaviour
 {
     public static GameControl Instance;
-
-    [SerializeField] private GameObject panel;
-
-    [SerializeField] private Text highScoreText;
-
-    [SerializeField] private Text yourScoreText;
-    
-    [SerializeField] private GameObject[] obstacles;
-
-    [SerializeField] private Transform spawnPoint;
-
+    [SerializeField] private GameObject lossPanel, startPanel;
+    [SerializeField] private Text highScoreText = null;
+    [SerializeField] private Text yourScoreText = null;
+    [SerializeField] private GameObject[] obstacles = null, powerUps = null;
+    [SerializeField] private Transform spawnPoint = null;
     [SerializeField] private float spawnRate = 2f;
-    
     [SerializeField] private float timeToBoost = 5f;
-    [SerializeField] private const int OneStarScore = 20;
-    [SerializeField] private const int TwoStarScore = 40;
-    [SerializeField] private const int ThreeStarScore = 60;
+    [SerializeField] private int oneStarScore = 20;
+    [SerializeField] private int twoStarScore = 50;
+    [SerializeField] private int threeStarScore = 100;
+    [SerializeField] private float clockPowerUpDuration = 20f;
 
-    private float _nextBoost, _nextScoreIncrease,  _nextSpawn;
-
+    private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp;
+    private bool _clockPowerUpActivated = false;
     private int _highScore, _yourScore;
 
     internal static bool GameStopped;
@@ -39,31 +33,22 @@ public class GameControl : MonoBehaviour
     private Transform _achievedLeftStar;
     private Transform _achievedMidStar;
     private Transform _achievedRightStar;
-    private Transform _emptyLeftStar;
-    private Transform _emptyMidStar;
-    private Transform _emptyRightStar;
-    
+
 
     private void Start()
     {
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
-        panel.SetActive(false);
+        lossPanel.SetActive(false);
         _yourScore = 0;
-        GameStopped = false;
-        Time.timeScale = 1f;
-        // RESET HIGH SCORE
-        //PlayerPrefs.SetInt("highScore", 0);
+        GameStopped = true;
+        Time.timeScale = 0;
         _highScore = PlayerPrefs.GetInt("level" + numberOfStage + "Score", _yourScore);
         _nextSpawn = Time.time + spawnRate;
         _nextBoost = Time.unscaledTime + timeToBoost;
-        
-        _achievedLeftStar = panel.transform.Find("A Left Star");
-        _achievedMidStar = panel.transform.Find("A Mid Star");
-        _achievedRightStar = panel.transform.Find("A Right Star");
-        _emptyLeftStar = panel.transform.Find("E Left Star");
-        _emptyMidStar = panel.transform.Find("E Mid Star");
-        _emptyRightStar = panel.transform.Find("E Right Star");
+        _achievedLeftStar = lossPanel.transform.Find("A Left Star");
+        _achievedMidStar = lossPanel.transform.Find("A Mid Star");
+        _achievedRightStar = lossPanel.transform.Find("A Right Star");
     }
     
     private void Update()
@@ -73,17 +58,28 @@ public class GameControl : MonoBehaviour
         yourScoreText.text = "Your Score: " + _yourScore;
 
         if (Time.time > _nextSpawn) SpawnObstacle();
-        if (Time.unscaledTime > _nextBoost && !GameStopped) BoostTime();
+        if (Time.unscaledTime > _nextBoost && !GameStopped && !_clockPowerUpActivated) BoostTime();
+        if (_clockPowerUpActivated)
+        {
+            if ((Time.time - _clockPowerUpTimePickedUp) >= clockPowerUpDuration)
+            {
+                _clockPowerUpActivated = false;
+                Time.timeScale = _timeScalePrePowerUp;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
+        }
     }
 
     public void Loss()
     {
         if (_yourScore > _highScore) PlayerPrefs.SetInt("level" + numberOfStage + "Score", _yourScore);
         AdjustTotalStars();
-        
         Time.timeScale = 0;
         GameStopped = true;
-        panel.SetActive(true);
+        lossPanel.SetActive(true);
         ShowCurrentStars();
     }
 
@@ -91,21 +87,34 @@ public class GameControl : MonoBehaviour
     {
         _nextSpawn = Time.time + spawnRate;
         if (obstaclesInScene.Count != 0) return;
-        var randomObstacle = Random.Range(0, obstacles.Length);
-        var obstacle = obstacles[randomObstacle];
-        obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+        var obstacleOrPowerUp = Random.Range(0, 10);
+        int obstacleToSpawn = 0;
+        Debug.Log(obstacleOrPowerUp);
+        if (obstacleOrPowerUp == 0)
+        {
+            obstacleToSpawn = Random.Range(0, powerUps.Length);
+            var obstacle = powerUps[obstacleToSpawn];
+            obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+        }
+        else
+        {
+            obstacleToSpawn = Random.Range(0, obstacles.Length);
+            var obstacle = obstacles[obstacleToSpawn];
+            obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+        }
     }
 
     private void BoostTime()
     {
         _nextBoost = Time.unscaledTime + timeToBoost;
-        Time.timeScale += 0.25f;
+        Time.timeScale += 0.1f;
+        _timeScalePrePowerUp = Time.timeScale;
     }
 
     private void IncreaseYourScore()
     {
         if (!(Time.unscaledTime > _nextScoreIncrease)) return;
-        _yourScore += 1;
+        _yourScore += (int)Time.timeSinceLevelLoad;
         _nextScoreIncrease = Time.unscaledTime + 1;
     }
 
@@ -126,31 +135,31 @@ public class GameControl : MonoBehaviour
             case 3:
                 break;
             case 2:
-                if (_yourScore >= ThreeStarScore)
+                if (_yourScore >= threeStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 3);
                 }
                 break;
             case 1:
-                if (_yourScore >= ThreeStarScore)
+                if (_yourScore >= threeStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 3);
                 }
-                else if (_yourScore >= TwoStarScore)
+                else if (_yourScore >= twoStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 2);
                 }
                 break;
             case 0:
-                if (_yourScore >= ThreeStarScore)
+                if (_yourScore >= threeStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 3);
                 }
-                else if (_yourScore >= TwoStarScore)
+                else if (_yourScore >= twoStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 2);
                 }
-                else if (_yourScore >= OneStarScore)
+                else if (_yourScore >= oneStarScore)
                 {
                     PlayerPrefs.SetInt("level" + numberOfStage + "Stars", 1);
                 }
@@ -163,8 +172,21 @@ public class GameControl : MonoBehaviour
         _achievedLeftStar.gameObject.SetActive(false);
         _achievedMidStar.gameObject.SetActive(false);
         _achievedRightStar.gameObject.SetActive(false);
-        if (_yourScore >= OneStarScore) _achievedLeftStar.gameObject.SetActive(true);
-        if (_yourScore >= TwoStarScore) _achievedMidStar.gameObject.SetActive(true);
-        if (_yourScore >= ThreeStarScore) _achievedRightStar.gameObject.SetActive(true);
+        if (_yourScore >= oneStarScore) _achievedLeftStar.gameObject.SetActive(true);
+        if (_yourScore >= twoStarScore) _achievedMidStar.gameObject.SetActive(true);
+        if (_yourScore >= threeStarScore) _achievedRightStar.gameObject.SetActive(true);
+    }
+
+    internal void ClockPowerUpActivation()
+    {
+        _clockPowerUpActivated = true;
+        _clockPowerUpTimePickedUp = Time.time;
+    }
+
+    public void OnStartButtonPressed()
+    {
+        GameStopped = false;
+        Time.timeScale = 1f;
+        startPanel.SetActive(false);
     }
 }
