@@ -3,6 +3,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace World__Map_Scripts
 {
@@ -19,6 +20,7 @@ namespace World__Map_Scripts
         private Transform _emptyLeftStar;
         private Transform _emptyMidStar;
         private Transform _emptyRightStar;
+        private Text _highScoreText;
         private bool _isLocked;
 
         private void Start()
@@ -31,12 +33,14 @@ namespace World__Map_Scripts
             _emptyLeftStar = _unlocked.Find("E Left Star");
             _emptyMidStar = _unlocked.Find("E Mid Star");
             _emptyRightStar = _unlocked.Find("E Right Star");
+            _highScoreText = _unlocked.Find("HighScore").GetComponent<Text>();
 
             if (CheckIfUnlocked())
             {
                 _locked.gameObject.SetActive(false);
                 _unlocked.gameObject.SetActive(true);
                 CalculateLevelStars();
+                _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("level" + numberOfStage + "Score", 0);
                 _isLocked = false;
             }
             else
