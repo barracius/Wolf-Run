@@ -65,7 +65,7 @@ namespace Wolfie
 
         private void Bite()
         {
-            if (GameControl.Instance.obstaclesInScene[0].tag.Contains("Bite"))
+            if (GameControl.Instance.obstaclesInScene != null && GameControl.Instance.obstaclesInScene[0].tag.Contains("Bite"))
             {
                 GameObject obstacleToDelete = GameControl.Instance.obstaclesInScene[0];
                 GameControl.Instance.obstaclesInScene.RemoveAt(0);

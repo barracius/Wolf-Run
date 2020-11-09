@@ -13,23 +13,25 @@ namespace Wolfie
 
         private void Update()
         {
-            if (mainController.state == "biting2")
+            switch (mainController.state)
             {
-                audioSource.clip = biteSound;
-                audioSource.Play();
-                mainController.state = "running";
-            }
-            else if (mainController.state == "jumping2")
-            {
-                audioSource.clip = jumpSound;
-                audioSource.Play();
-                mainController.state = "running";
-            }
-            else if (mainController.state == "sliding2")
-            {
-                audioSource.clip = slideSound;
-                audioSource.Play();
-                mainController.state = "running";
+                case "biting2":
+                    audioSource.clip = biteSound;
+                    audioSource.Play();
+                    mainController.state = "running";
+                    break;
+                case "jumping2":
+                    audioSource.clip = jumpSound;
+                    audioSource.Play();
+                    mainController.state = "running";
+                    break;
+                case "sliding2":
+                    audioSource.clip = slideSound;
+                    audioSource.Play();
+                    mainController.state = "running";
+                    break;
+                default:
+                    break;
             }
         }
     }

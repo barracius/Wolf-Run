@@ -41,7 +41,7 @@ public class GameControl : MonoBehaviour
         Time.timeScale = 1f;
         // RESET HIGH SCORE
         //PlayerPrefs.SetInt("highScore", 0);
-        _highScore = PlayerPrefs.GetInt("highScore");
+        _highScore = PlayerPrefs.GetInt("level1Score");
         _nextSpawn = Time.time + spawnRate;
         _nextBoost = Time.unscaledTime + timeToBoost;
     }
@@ -62,7 +62,7 @@ public class GameControl : MonoBehaviour
 
     public void Loss()
     {
-        if (_yourScore > _highScore) PlayerPrefs.SetInt("highScore", _yourScore);
+        if (_yourScore > _highScore) PlayerPrefs.SetInt("level1Score", _yourScore);
         Time.timeScale = 0;
         GameStopped = true;
         restartButton.SetActive(true);
@@ -92,6 +92,6 @@ public class GameControl : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("1");
     }
 }
