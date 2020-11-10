@@ -9,11 +9,11 @@ using UnityEngine.UIElements;
 public class GameControl : MonoBehaviour
 {
     public static GameControl Instance;
-    [SerializeField] private GameObject lossPanel, startPanel;
-    [SerializeField] private Text highScoreText = null;
-    [SerializeField] private Text yourScoreText = null;
+    [SerializeField] private Canvas canvas;
+    
+    
     [SerializeField] private GameObject[] obstacles = null, powerUps = null;
-    [SerializeField] private Transform spawnPoint = null;
+    [SerializeField] private Transform spawnPoint;
     [SerializeField] private float spawnRate = 2f;
     [SerializeField] private float timeToBoost = 5f;
     [SerializeField] private int oneStarScore = 20;
@@ -24,38 +24,60 @@ public class GameControl : MonoBehaviour
     private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp;
     private bool _clockPowerUpActivated = false;
     private int _highScore, _yourScore;
+    private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel;
+    private Text _highScoreText, _yourScoreText, _shieldChargesText;
+    private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon;
 
     internal static bool GameStopped;
     
     public List<GameObject> obstaclesInScene;
     public int numberOfStage;
     
-    private Transform _achievedLeftStar;
-    private Transform _achievedMidStar;
-    private Transform _achievedRightStar;
+    
 
 
     private void Start()
     {
+        //Assign panels
+        _lossPanel = canvas.transform.Find("LossPanel").gameObject;
+        _startPanel = canvas.transform.Find("StartPanel").gameObject;
+        _powerUpsPanel = canvas.transform.Find("PowerUpsPanel").gameObject;
+        _scorePanel = canvas.transform.Find("ScorePanel").gameObject;
+        
+        //Assign lost panel values
+        _achievedLeftStar = _lossPanel.transform.Find("A Left Star");
+        _achievedMidStar = _lossPanel.transform.Find("A Mid Star");
+        _achievedRightStar = _lossPanel.transform.Find("A Right Star");
+        
+        //Assign score panel values
+        _highScoreText = _scorePanel.transform.Find("HighScoreText").GetComponent<Text>();
+        _yourScoreText = _scorePanel.transform.Find("YourScoreText").GetComponent<Text>();
+        
+        //Assign power ups panel values
+        _shieldIcon = _powerUpsPanel.transform.Find("ShieldIcon");
+        _shieldChargesText = _shieldIcon.Find("ShieldChargesText").GetComponent<Text>();
+        _clockIcon = _powerUpsPanel.transform.Find("ClockIcon");
+
+
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
-        lossPanel.SetActive(false);
+        _lossPanel.SetActive(false);
+        _shieldIcon.gameObject.SetActive(false);
+        _clockIcon.gameObject.SetActive(false);
         _yourScore = 0;
         GameStopped = true;
         Time.timeScale = 0;
         _highScore = PlayerPrefs.GetInt("level" + numberOfStage + "Score", _yourScore);
         _nextSpawn = Time.time + spawnRate;
         _nextBoost = Time.unscaledTime + timeToBoost;
-        _achievedLeftStar = lossPanel.transform.Find("A Left Star");
-        _achievedMidStar = lossPanel.transform.Find("A Mid Star");
-        _achievedRightStar = lossPanel.transform.Find("A Right Star");
+        
     }
     
     private void Update()
     {
         if (!GameStopped) IncreaseYourScore();
-        highScoreText.text = "High Score: " + _highScore;
-        yourScoreText.text = "Your Score: " + _yourScore;
+        _highScoreText.text = "High Score: " + _highScore;
+        _yourScoreText.text = "Your Score: " + _yourScore;
 
         if (Time.time > _nextSpawn) SpawnObstacle();
         if (Time.unscaledTime > _nextBoost && !GameStopped && !_clockPowerUpActivated) BoostTime();
@@ -65,6 +87,7 @@ public class GameControl : MonoBehaviour
             {
                 _clockPowerUpActivated = false;
                 Time.timeScale = _timeScalePrePowerUp;
+                _clockIcon.gameObject.SetActive(false);
             }
             else
             {
@@ -79,7 +102,7 @@ public class GameControl : MonoBehaviour
         AdjustTotalStars();
         Time.timeScale = 0;
         GameStopped = true;
-        lossPanel.SetActive(true);
+        _lossPanel.SetActive(true);
         ShowCurrentStars();
     }
 
@@ -88,8 +111,7 @@ public class GameControl : MonoBehaviour
         _nextSpawn = Time.time + spawnRate;
         if (obstaclesInScene.Count != 0) return;
         var obstacleOrPowerUp = Random.Range(0, 10);
-        int obstacleToSpawn = 0;
-        Debug.Log(obstacleOrPowerUp);
+        int obstacleToSpawn;
         if (obstacleOrPowerUp == 0)
         {
             obstacleToSpawn = Random.Range(0, powerUps.Length);
@@ -181,12 +203,33 @@ public class GameControl : MonoBehaviour
     {
         _clockPowerUpActivated = true;
         _clockPowerUpTimePickedUp = Time.time;
+        _clockIcon.gameObject.SetActive(true);
     }
 
     public void OnStartButtonPressed()
     {
         GameStopped = false;
         Time.timeScale = 1f;
-        startPanel.SetActive(false);
+        _startPanel.SetActive(false);
+    }
+
+    internal void ShieldPowerUpUI(int shieldCharges)
+    {
+        switch (shieldCharges)
+        {
+            case 0:
+                _shieldIcon.gameObject.SetActive(false);
+                break;
+            case 1:
+                _shieldIcon.gameObject.SetActive(true);
+                _shieldChargesText.text = "1";
+                break;
+            case 2:
+                _shieldChargesText.text = "2";
+                break;
+            case 3:
+                _shieldChargesText.text = "3";
+                break;
+        }
     }
 }

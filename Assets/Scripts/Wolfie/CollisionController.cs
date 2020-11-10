@@ -18,7 +18,16 @@ namespace Wolfie
             if (other.gameObject.tag.Contains("Obstacle"))
             {
                 Destroy(other.gameObject);
-                Stunned = true;
+                if (mainController.shieldCharges > 0)
+                {
+                    mainController.shieldCharges -= 1;
+                    GameControl.Instance.ShieldPowerUpUI(mainController.shieldCharges);
+                    GameControl.Instance.obstaclesInScene.RemoveAt(0);
+                }
+                else
+                {
+                    Stunned = true;
+                }
             }
 
             if (other.gameObject.CompareTag("Ground"))
@@ -35,10 +44,11 @@ namespace Wolfie
                 }
                 else if (other.gameObject.tag.Contains("Shield"))
                 {
-                    
+                    if (mainController.shieldCharges == 3) return;
+                    mainController.shieldCharges += 1;
+                    GameControl.Instance.ShieldPowerUpUI(mainController.shieldCharges);
                 }
                 Destroy(other.gameObject);
-                // Power def
             }
         }
     }

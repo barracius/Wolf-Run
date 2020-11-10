@@ -11,6 +11,7 @@ namespace Wolfie
         [SerializeField] internal PhysicsController physicsController = null;
         internal String state = "running";
         public Rigidbody2D rb;
+        internal int shieldCharges = 0;
         private void Update()
         {
             if (collisionController.OnFire)
