@@ -9,7 +9,8 @@ TagManager:
   - Ground
   - Obstacle_Jump
   - Obstacle_Slide
-  - PowerUp
+  - PowerUp_Clock
+  - PowerUp_Shield
   layers:
   - Default
   - TransparentFX

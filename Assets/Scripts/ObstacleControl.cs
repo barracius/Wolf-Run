@@ -6,7 +6,8 @@ using UnityEngine;
 public class ObstacleControl : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = -5f;
-    
+
+
     private void Update()
     {
         var transform1 = transform;

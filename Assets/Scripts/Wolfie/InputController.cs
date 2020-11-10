@@ -5,7 +5,7 @@ namespace Wolfie
 {
     public class InputController : MonoBehaviour
     {
-        [SerializeField] private MainController mainController;
+        [SerializeField] private MainController mainController = null;
 
         private void Update()
         {
