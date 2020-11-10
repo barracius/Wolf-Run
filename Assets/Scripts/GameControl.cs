@@ -27,7 +27,7 @@ public class GameControl : MonoBehaviour
     private bool _clockPowerUpActivated = false;
     private int _highScore, _yourScore;
     private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
-    private Text _highScoreText, _yourScoreText, _shieldChargesText, _oneStarText, _twoStarText, _threeStarText;
+    private Text _highScoreText, _yourScoreText, _shieldChargesText, _clockRemainingTimeText, _oneStarText, _twoStarText, _threeStarText;
     private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon, _targetOneStar, _targetTwoStar, _targetThreeStar, _objectivePanel;
 
     internal static bool GameStopped;
@@ -84,6 +84,7 @@ public class GameControl : MonoBehaviour
         _shieldIcon = _powerUpsPanel.transform.Find("ShieldIcon");
         _shieldChargesText = _shieldIcon.Find("ShieldChargesText").GetComponent<Text>();
         _clockIcon = _powerUpsPanel.transform.Find("ClockIcon");
+        _clockRemainingTimeText = _clockIcon.Find("ClockRemainingTimeText").GetComponent<Text>();
 
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
@@ -109,7 +110,8 @@ public class GameControl : MonoBehaviour
         if (Time.unscaledTime > _nextBoost && !GameStopped && !_clockPowerUpActivated) BoostTime();
         if (_clockPowerUpActivated)
         {
-            if ((Time.time - _clockPowerUpTimePickedUp) >= clockPowerUpDuration)
+            float diff = Time.time - _clockPowerUpTimePickedUp;
+            if (diff >= clockPowerUpDuration)
             {
                 _clockPowerUpActivated = false;
                 Time.timeScale = _timeScalePrePowerUp;
@@ -118,6 +120,8 @@ public class GameControl : MonoBehaviour
             else
             {
                 Time.timeScale = 1;
+                int remainingClockTime = (int) clockPowerUpDuration - (int) diff;
+                _clockRemainingTimeText.text = remainingClockTime.ToString();
             }
         }
         if (_yourScore >= oneStarScore) _oneStar1.SetActive(true);
