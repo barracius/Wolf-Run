@@ -9,6 +9,8 @@ namespace Wolfie
         [SerializeField] internal AudioController audioController = null;
         [SerializeField] internal InputController inputController = null;
         [SerializeField] internal PhysicsController physicsController = null;
+        internal GameObject barrier;
+        internal SpriteRenderer srBarrier;
         internal String state = "running";
         public Rigidbody2D rb;
         internal int shieldCharges = 0;
@@ -23,6 +25,10 @@ namespace Wolfie
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            barrier = transform.Find("Barrier").gameObject;
+            srBarrier = barrier.GetComponent<SpriteRenderer>();
+            barrier.SetActive(false);
+            
         }
     }
 }

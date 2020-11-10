@@ -44,7 +44,11 @@ namespace Wolfie
                 }
                 else if (other.gameObject.tag.Contains("Shield"))
                 {
-                    if (mainController.shieldCharges == 3) return;
+                    if (mainController.shieldCharges == 3)
+                    {
+                        Destroy(other.gameObject);
+                        return;
+                    }
                     mainController.shieldCharges += 1;
                     GameControl.Instance.ShieldPowerUpUI(mainController.shieldCharges);
                 }

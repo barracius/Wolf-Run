@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Wolfie;
 
 public class GameControl : MonoBehaviour
 {
@@ -20,13 +21,14 @@ public class GameControl : MonoBehaviour
     [SerializeField] private int twoStarScore = 50;
     [SerializeField] private int threeStarScore = 100;
     [SerializeField] private float clockPowerUpDuration = 20f;
+    [SerializeField] private MainController wolfieMainController;
 
     private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp;
     private bool _clockPowerUpActivated = false;
     private int _highScore, _yourScore;
-    private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel;
-    private Text _highScoreText, _yourScoreText, _shieldChargesText;
-    private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon;
+    private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
+    private Text _highScoreText, _yourScoreText, _shieldChargesText, _oneStarText, _twoStarText, _threeStarText;
+    private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon, _targetOneStar, _targetTwoStar, _targetThreeStar, _objectivePanel;
 
     internal static bool GameStopped;
     
@@ -52,12 +54,36 @@ public class GameControl : MonoBehaviour
         //Assign score panel values
         _highScoreText = _scorePanel.transform.Find("HighScoreText").GetComponent<Text>();
         _yourScoreText = _scorePanel.transform.Find("YourScoreText").GetComponent<Text>();
+        _objectivePanel = _scorePanel.transform.Find("ObjectivePanel");
+        
+        _targetOneStar = _objectivePanel.transform.Find("OneStar");
+        _oneStar1 = _targetOneStar.Find("A_Star_1").gameObject;
+        _oneStar1.SetActive(false);
+        _oneStarText = _targetOneStar.Find("TargetScoreText").GetComponent<Text>();
+        _oneStarText.text = oneStarScore.ToString();
+        
+        _targetTwoStar = _objectivePanel.transform.Find("TwoStar");
+        _twoStar1 = _targetTwoStar.Find("A_Star_1").gameObject;
+        _twoStar1.SetActive(false);
+        _twoStar2 = _targetTwoStar.Find("A_Star_2").gameObject;
+        _twoStar2.SetActive(false);
+        _twoStarText = _targetTwoStar.Find("TargetScoreText").GetComponent<Text>();
+        _twoStarText.text = twoStarScore.ToString();
+        
+        _targetThreeStar = _objectivePanel.transform.Find("ThreeStar");
+        _threeStar1 = _targetThreeStar.Find("A_Star_1").gameObject;
+        _threeStar1.SetActive(false);
+        _threeStar2 = _targetThreeStar.Find("A_Star_2").gameObject;
+        _threeStar2.SetActive(false);
+        _threeStar3 = _targetThreeStar.Find("A_Star_3").gameObject;
+        _threeStar3.SetActive(false);
+        _threeStarText = _targetThreeStar.Find("TargetScoreText").GetComponent<Text>();
+        _threeStarText.text = threeStarScore.ToString();
         
         //Assign power ups panel values
         _shieldIcon = _powerUpsPanel.transform.Find("ShieldIcon");
         _shieldChargesText = _shieldIcon.Find("ShieldChargesText").GetComponent<Text>();
         _clockIcon = _powerUpsPanel.transform.Find("ClockIcon");
-
 
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
@@ -93,6 +119,19 @@ public class GameControl : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
+        }
+        if (_yourScore >= oneStarScore) _oneStar1.SetActive(true);
+        if (_yourScore >= twoStarScore)
+        {
+            _twoStar1.SetActive(true);
+            _twoStar2.SetActive(true);
+        }
+
+        if (_yourScore >= threeStarScore)
+        {
+            _threeStar1.SetActive(true);
+            _threeStar2.SetActive(true);
+            _threeStar3.SetActive(true);
         }
     }
 
@@ -219,16 +258,23 @@ public class GameControl : MonoBehaviour
         {
             case 0:
                 _shieldIcon.gameObject.SetActive(false);
+                wolfieMainController.barrier.SetActive(false);
                 break;
             case 1:
                 _shieldIcon.gameObject.SetActive(true);
+                Color whiteBizarre = new Color(1,1,1, 0.5333334f);
+                wolfieMainController.barrier.SetActive(true);
                 _shieldChargesText.text = "1";
                 break;
             case 2:
                 _shieldChargesText.text = "2";
+                Color redBizarre = new Color(1,1,1, 0.6745098f);
+                wolfieMainController.srBarrier.color = redBizarre;
                 break;
             case 3:
                 _shieldChargesText.text = "3";
+                Color purpleBizarre = new Color(1,1,1, 0.8647059f);
+                wolfieMainController.srBarrier.color = purpleBizarre;
                 break;
         }
     }
