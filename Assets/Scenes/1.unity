@@ -3858,7 +3858,11 @@ MonoBehaviour:
   twoStarScore: 10000
   threeStarScore: 15000
   clockPowerUpDuration: 20
-  wolfieMainController: {fileID: 1362592396}
+  wolfie: {fileID: 1362592394}
+  wolfieSprites:
+  - {fileID: 21300000, guid: 406334c06ac1da6448179920fc259a91, type: 3}
+  - {fileID: 21300000, guid: 071b9e906ed81bf45bc4c1c239d48abe, type: 3}
+  - {fileID: 21300000, guid: 00c050bc4b9f2cd47a5744c1ecd999e2, type: 3}
   obstaclesInScene: []
   numberOfStage: 1
 --- !u!4 &1531586194

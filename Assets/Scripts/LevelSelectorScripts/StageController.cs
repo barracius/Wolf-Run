@@ -1,11 +1,8 @@
-﻿using System;
-using System.Threading;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace World__Map_Scripts
+namespace LevelSelectorScripts
 {
     public class StageController : MonoBehaviour
     {

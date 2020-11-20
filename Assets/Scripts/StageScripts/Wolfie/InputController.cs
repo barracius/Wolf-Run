@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Wolfie
+namespace StageScripts.Wolfie
 {
     public class InputController : MonoBehaviour
     {
@@ -9,18 +8,18 @@ namespace Wolfie
 
         private void Update()
         {
-            if (GameControl.GameStopped || mainController.state != "running") return;
+            if (GameControl.GameStopped || mainController.State != "running") return;
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                mainController.state = "biting1";
+                mainController.State = "biting1";
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                mainController.state = "jumping1";
+                mainController.State = "jumping1";
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                mainController.state = "sliding1";
+                mainController.State = "sliding1";
             }
         }
     }

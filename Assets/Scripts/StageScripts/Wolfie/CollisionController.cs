@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Wolfie
+namespace StageScripts.Wolfie
 {
     public class CollisionController : MonoBehaviour
     {
@@ -18,10 +17,10 @@ namespace Wolfie
             if (other.gameObject.tag.Contains("Obstacle"))
             {
                 Destroy(other.gameObject);
-                if (mainController.shieldCharges > 0)
+                if (mainController.ShieldCharges > 0)
                 {
-                    mainController.shieldCharges -= 1;
-                    GameControl.Instance.ShieldPowerUpUI(mainController.shieldCharges);
+                    mainController.ShieldCharges -= 1;
+                    GameControl.Instance.ShieldPowerUpUI(mainController.ShieldCharges);
                     GameControl.Instance.obstaclesInScene.RemoveAt(0);
                 }
                 else
@@ -44,13 +43,13 @@ namespace Wolfie
                 }
                 else if (other.gameObject.tag.Contains("Shield"))
                 {
-                    if (mainController.shieldCharges == 3)
+                    if (mainController.ShieldCharges == 3)
                     {
                         Destroy(other.gameObject);
                         return;
                     }
-                    mainController.shieldCharges += 1;
-                    GameControl.Instance.ShieldPowerUpUI(mainController.shieldCharges);
+                    mainController.ShieldCharges += 1;
+                    GameControl.Instance.ShieldPowerUpUI(mainController.ShieldCharges);
                 }
                 Destroy(other.gameObject);
             }

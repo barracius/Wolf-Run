@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Wolfie
+namespace StageScripts.Wolfie
 {
     public class MainController : MonoBehaviour
     {
@@ -9,11 +9,11 @@ namespace Wolfie
         [SerializeField] internal AudioController audioController = null;
         [SerializeField] internal InputController inputController = null;
         [SerializeField] internal PhysicsController physicsController = null;
-        internal GameObject barrier;
-        internal SpriteRenderer srBarrier;
-        internal String state = "running";
+        internal GameObject Barrier;
+        internal SpriteRenderer SrBarrier;
+        internal string State = "running";
         public Rigidbody2D rb;
-        internal int shieldCharges = 0;
+        internal int ShieldCharges = 0;
         private void Update()
         {
             if (collisionController.OnFire)
@@ -25,9 +25,9 @@ namespace Wolfie
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
-            barrier = transform.Find("Barrier").gameObject;
-            srBarrier = barrier.GetComponent<SpriteRenderer>();
-            barrier.SetActive(false);
+            Barrier = transform.Find("Barrier").gameObject;
+            SrBarrier = Barrier.GetComponent<SpriteRenderer>();
+            Barrier.SetActive(false);
             
         }
     }

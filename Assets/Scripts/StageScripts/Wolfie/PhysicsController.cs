@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Wolfie
+namespace StageScripts.Wolfie
 {
     public class PhysicsController : MonoBehaviour
     {
@@ -9,8 +8,8 @@ namespace Wolfie
         [SerializeField] private float jumpHeight = 650; 
         private const int MovementSpeed = 5;
         internal bool IsJumping;
-        internal bool IsSliding;
-        private float slideTimer = 0f;
+        private bool _isSliding;
+        private float _slideTimer = 0f;
         public float maxSlideTime = 1.5f;
         private void FixedUpdate()
         {
@@ -20,11 +19,11 @@ namespace Wolfie
             }
             
             
-            if (mainController.state.Equals("jumping1") && !IsJumping && !IsSliding)
+            if (mainController.State.Equals("jumping1") && !IsJumping && !_isSliding)
             {
                 Jump();
             }
-            else if (mainController.state.Equals("sliding1") && !IsSliding && !IsJumping)
+            else if (mainController.State.Equals("sliding1") && !_isSliding && !IsJumping)
             {
                 Slide();
             }
@@ -32,17 +31,17 @@ namespace Wolfie
 
         private void Update()
         {
-            if (mainController.state.Equals("biting1") && GameControl.Instance.obstaclesInScene.Count > 0)
+            if (mainController.State.Equals("biting1") && GameControl.Instance.obstaclesInScene.Count > 0)
             {
                 Bite();
             }
 
-            if (IsSliding)
+            if (_isSliding)
             {
-                slideTimer += Time.deltaTime;
-                if (slideTimer > maxSlideTime)
+                _slideTimer += Time.deltaTime;
+                if (_slideTimer > maxSlideTime)
                 {
-                    IsSliding = false;
+                    _isSliding = false;
                     transform.localScale = new Vector3((float) 0.33, (float) 0.33);
                 }
             }
@@ -51,16 +50,16 @@ namespace Wolfie
 
         private void Slide()
         {
-            slideTimer = 0;
-            IsSliding = true;
+            _slideTimer = 0;
+            _isSliding = true;
             transform.localScale = new Vector2((float)0.2, (float)0.2);
-            mainController.state = "sliding2";
+            mainController.State = "sliding2";
         }
         private void Jump()
         {
             IsJumping = true;
             mainController.rb.AddForce(Vector2.up * jumpHeight);
-            mainController.state = "jumping2";
+            mainController.State = "jumping2";
         }
 
         private void Bite()
@@ -71,7 +70,7 @@ namespace Wolfie
                 GameControl.Instance.obstaclesInScene.RemoveAt(0);
                 Destroy(obstacleToDelete);
             }
-            mainController.state = "biting2";
+            mainController.State = "biting2";
         }
     }
 }

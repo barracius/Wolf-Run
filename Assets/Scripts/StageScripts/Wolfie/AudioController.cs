@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Wolfie
+namespace StageScripts.Wolfie
 {
     public class AudioController : MonoBehaviour
     {
@@ -14,22 +14,22 @@ namespace Wolfie
 
         private void Update()
         {
-            switch (mainController.state)
+            switch (mainController.State)
             {
                 case "biting2":
                     audioSource.clip = biteSound;
                     audioSource.Play();
-                    mainController.state = "running";
+                    mainController.State = "running";
                     break;
                 case "jumping2":
                     audioSource.clip = jumpSound;
                     audioSource.Play();
-                    mainController.state = "running";
+                    mainController.State = "running";
                     break;
                 case "sliding2":
                     audioSource.clip = slideSound;
                     audioSource.Play();
-                    mainController.state = "running";
+                    mainController.State = "running";
                     break;
                 default:
                     break;
