@@ -19,7 +19,7 @@ namespace StageScripts.Wolfie
                 if (mainController.ShieldCharges > 0)
                 {
                     mainController.ShieldCharges -= 1;
-                    GameControl.Instance.ShieldPowerUpUI(mainController.ShieldCharges);
+                    GameControl.Instance.UpdateShieldPowerUpState(mainController.ShieldCharges);
                     GameControl.Instance.obstaclesInScene.RemoveAt(0);
                 }
                 else
@@ -38,7 +38,7 @@ namespace StageScripts.Wolfie
                 GameControl.Instance.obstaclesInScene.RemoveAt(0);
                 if (other.gameObject.tag.Contains("Clock"))
                 {
-                    GameControl.Instance.ClockPowerUpActivation();
+                    StartCoroutine(GameControl.Instance.ClockPowerUpActivate());
                 }
                 else if (other.gameObject.tag.Contains("Shield"))
                 {
@@ -48,7 +48,7 @@ namespace StageScripts.Wolfie
                         return;
                     }
                     mainController.ShieldCharges += 1;
-                    GameControl.Instance.ShieldPowerUpUI(mainController.ShieldCharges);
+                    GameControl.Instance.UpdateShieldPowerUpState(mainController.ShieldCharges);
                 }
                 Destroy(other.gameObject);
             }

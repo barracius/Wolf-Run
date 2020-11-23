@@ -7,15 +7,12 @@ namespace StageScripts.Wolfie
 {
     public class MainController : MonoBehaviour
     {
-        [SerializeField] internal CollisionController collisionController = null;
         [SerializeField] internal AudioController audioController = null;
-        [SerializeField] internal InputController inputController = null;
         [SerializeField] internal PhysicsController physicsController = null;
         [SerializeField] internal float maxSlideTime = 1.5f;
         internal GameObject Barrier;
         internal SpriteRenderer SrBarrier;
         [SerializeField] internal WolfieState wolfieState = WolfieState.Running;
-        private float _slideTimer = 0f;
         private bool _isSliding = false;
         internal bool IsJumping = false;
 
@@ -25,7 +22,7 @@ namespace StageScripts.Wolfie
         {
             if (wolfieState == WolfieState.OnFire)
             {
-                GameControl.Instance.Loss();
+                GameControl.Instance.GameOver();
             }
         }
 
@@ -65,19 +62,6 @@ namespace StageScripts.Wolfie
             SrBarrier = Barrier.GetComponent<SpriteRenderer>();
             Barrier.SetActive(false);
             
-        }
-
-        private void CheckSliderTimer()
-        {
-            if (_isSliding)
-            {
-                _slideTimer += Time.deltaTime;
-                if (_slideTimer > maxSlideTime)
-                {
-                    _isSliding = false;
-                    physicsController.SlideEnd();
-                }
-            }
         }
 
         private IEnumerator Slide()

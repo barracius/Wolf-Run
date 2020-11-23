@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using StageScripts.Wolfie;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,7 +25,7 @@ namespace StageScripts
         [SerializeField] private Transform wolfie;
         [SerializeField] private Sprite[] wolfieSprites;
 
-        private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp;
+        private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp, _clockPowerUpTimeLeft;
         private bool _clockPowerUpActivated = false;
         private int _highScore, _yourScore;
         private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
@@ -110,44 +111,30 @@ namespace StageScripts
     
         private void Update()
         {
-            if (!GameStopped) IncreaseYourScore();
+            if (!GameStopped) IncreaseScore();
             _highScoreText.text = "High Score: " + _highScore;
             _yourScoreText.text = "Your Score: " + _yourScore;
 
             if (Time.time > _nextSpawn) SpawnObstacle();
             if (Time.unscaledTime > _nextBoost && !GameStopped && !_clockPowerUpActivated) BoostTime();
-            if (_clockPowerUpActivated)
-            {
-                float diff = Time.time - _clockPowerUpTimePickedUp;
-                if (diff >= clockPowerUpDuration)
-                {
-                    _clockPowerUpActivated = false;
-                    Time.timeScale = _timeScalePrePowerUp;
-                    _clockIcon.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Time.timeScale = 1;
-                    int remainingClockTime = (int) clockPowerUpDuration - (int) diff;
-                    _clockRemainingTimeText.text = remainingClockTime.ToString();
-                }
-            }
-            if (_yourScore >= oneStarScore) _oneStar1.SetActive(true);
-            if (_yourScore >= twoStarScore)
+            CheckInGameStarsAchieved(_yourScore);
+        }
+
+        private void CheckInGameStarsAchieved(int score)
+        {
+            if (score >= oneStarScore) _oneStar1.SetActive(true);
+            if (score >= twoStarScore)
             {
                 _twoStar1.SetActive(true);
                 _twoStar2.SetActive(true);
             }
-
-            if (_yourScore >= threeStarScore)
-            {
-                _threeStar1.SetActive(true);
-                _threeStar2.SetActive(true);
-                _threeStar3.SetActive(true);
-            }
+            if (score < threeStarScore) return;
+            _threeStar1.SetActive(true);
+            _threeStar2.SetActive(true);
+            _threeStar3.SetActive(true);
         }
 
-        public void Loss()
+        public void GameOver()
         {
             if (_yourScore > _highScore) PlayerPrefs.SetInt("level" + numberOfStage + "Score", _yourScore);
             AdjustTotalStars();
@@ -181,10 +168,9 @@ namespace StageScripts
         {
             _nextBoost = Time.unscaledTime + timeToBoost;
             Time.timeScale += 0.1f;
-            _timeScalePrePowerUp = Time.timeScale;
         }
 
-        private void IncreaseYourScore()
+        private void IncreaseScore()
         {
             if (!(Time.unscaledTime > _nextScoreIncrease)) return;
             _yourScore += (int)Time.timeSinceLevelLoad;
@@ -250,13 +236,6 @@ namespace StageScripts
             if (_yourScore >= threeStarScore) _achievedRightStar.gameObject.SetActive(true);
         }
 
-        internal void ClockPowerUpActivation()
-        {
-            _clockPowerUpActivated = true;
-            _clockPowerUpTimePickedUp = Time.time;
-            _clockIcon.gameObject.SetActive(true);
-        }
-
         public void OnStartButtonPressed()
         {
             GameStopped = false;
@@ -264,7 +243,7 @@ namespace StageScripts
             _startPanel.SetActive(false);
         }
 
-        internal void ShieldPowerUpUI(int shieldCharges)
+        internal void UpdateShieldPowerUpState(int shieldCharges)
         {
             switch (shieldCharges)
             {
@@ -292,13 +271,38 @@ namespace StageScripts
             }
         }
 
-        internal void LoadSkins()
+        private void LoadSkins()
         {
             //Get current skins through player prefs
             int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 3);
         
             //Set current skins
             _wolfieSpriteRenderer.sprite = wolfieSprites[wolfBody];
+        }
+        
+        //CoRoutine that handles when Wolfie grabs Clock Power Up.
+        internal IEnumerator ClockPowerUpActivate()
+        {
+            _timeScalePrePowerUp = Time.timeScale;
+            _clockIcon.gameObject.SetActive(true);
+            if (_clockPowerUpActivated)
+            {
+                _clockPowerUpTimeLeft += clockPowerUpDuration;
+            }
+            else
+            {
+                _clockPowerUpActivated = true;
+                for (_clockPowerUpTimeLeft = clockPowerUpDuration; _clockPowerUpTimeLeft > 0; _clockPowerUpTimeLeft -= Time.deltaTime)
+                {
+                    Time.timeScale = 1;
+                    int clockPowerTimeLeftInt = (int) _clockPowerUpTimeLeft;
+                    _clockRemainingTimeText.text = clockPowerTimeLeftInt.ToString();
+                    yield return null;
+                }
+                Time.timeScale = _timeScalePrePowerUp;
+                _clockIcon.gameObject.SetActive(false);
+                _clockPowerUpActivated = false;
+            }
         }
     }
 }
