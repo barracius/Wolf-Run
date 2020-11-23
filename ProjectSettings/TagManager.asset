@@ -5,7 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fire
-  - Obstacle
+  - Obstacle_Bite
+  - Ground
+  - Obstacle_Jump
+  - Obstacle_Slide
+  - PowerUp_Clock
+  - PowerUp_Shield
   layers:
   - Default
   - TransparentFX
