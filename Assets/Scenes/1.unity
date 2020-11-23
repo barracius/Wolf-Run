@@ -3251,7 +3251,8 @@ MonoBehaviour:
   audioController: {fileID: 1362592400}
   inputController: {fileID: 1362592398}
   physicsController: {fileID: 1362592397}
-  rb: {fileID: 0}
+  maxSlideTime: 1.5
+  wolfieState: 3
 --- !u!114 &1362592397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3264,9 +3265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3195f79a64a7c5846a04458f3c96f7bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainController: {fileID: 1362592396}
   jumpHeight: 750
-  maxSlideTime: 1.5
+  rb: {fileID: 0}
 --- !u!114 &1362592398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3388,7 +3388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7423f7897c88041a99ae222a8c1ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainController: {fileID: 1362592396}
   audioSource: {fileID: 1362592399}
   biteSound: {fileID: 8300000, guid: 07cece72dde13004ea0f744ef79da773, type: 3}
   jumpSound: {fileID: 8300000, guid: 9326bfd58018ccf4b896c5d5b7f02525, type: 3}

@@ -1,17 +1,16 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
     public class CollisionController : MonoBehaviour
     {
         [SerializeField] private MainController mainController = null;
-        internal bool OnFire = false;
-        internal bool Stunned = false;
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Fire"))
             {
-                OnFire = true;
+                mainController.wolfieState = WolfieState.OnFire;
             }
 
             if (other.gameObject.tag.Contains("Obstacle"))
@@ -25,13 +24,13 @@ namespace StageScripts.Wolfie
                 }
                 else
                 {
-                    Stunned = true;
+                    mainController.wolfieState = WolfieState.Stunned;
                 }
             }
 
             if (other.gameObject.CompareTag("Ground"))
             {
-                mainController.physicsController.IsJumping = false;
+                mainController.IsJumping = false;
             }
 
             if (other.gameObject.tag.Contains("PowerUp"))

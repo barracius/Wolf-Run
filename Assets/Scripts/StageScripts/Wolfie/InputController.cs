@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
@@ -8,18 +9,18 @@ namespace StageScripts.Wolfie
 
         private void Update()
         {
-            if (GameControl.GameStopped || mainController.State != "running") return;
+            if (GameControl.GameStopped || mainController.wolfieState != WolfieState.Running) return;
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                mainController.State = "biting1";
+                mainController.wolfieState = WolfieState.Biting;
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                mainController.State = "jumping1";
+                mainController.wolfieState = WolfieState.Jumping;
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                mainController.State = "sliding1";
+                mainController.wolfieState = WolfieState.Sliding;
             }
         }
     }
