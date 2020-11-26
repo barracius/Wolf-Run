@@ -10,4 +10,14 @@
         OnFire
     }
 
+    public enum Sounds
+    {
+        JumpSound,
+        BiteSound,
+        SlideSound,
+        BittenTreeSound,
+        ShieldSound,
+        LossGameSound,
+    }
+
 }

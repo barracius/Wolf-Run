@@ -3515,7 +3515,9 @@ MonoBehaviour:
   jumpSound: {fileID: 8300000, guid: 9326bfd58018ccf4b896c5d5b7f02525, type: 3}
   slideSound: {fileID: 8300000, guid: 4e1166aa4ee789e49914707404978373, type: 3}
   clockSound: {fileID: 8300000, guid: 60bf3aa4eb1188347a571e0505a1015e, type: 3}
-  shieldSound: {fileID: 0}
+  shieldSound: {fileID: 8300000, guid: 5ead87c802d36be41bb732fedc7a3c4b, type: 3}
+  lossSound: {fileID: 8300000, guid: 9f68327d3d683ce449f0135b33ffa4c8, type: 3}
+  bittenTreeSound: {fileID: 8300000, guid: 266250c20d9b16545b316dd0b396fbfd, type: 3}
 --- !u!1 &1391942368
 GameObject:
   m_ObjectHideFlags: 0

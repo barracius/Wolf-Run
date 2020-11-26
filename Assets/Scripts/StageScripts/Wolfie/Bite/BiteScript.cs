@@ -50,7 +50,7 @@ namespace StageScripts.Wolfie.Bite
             yield return Process ( r => _isBiting = r );
             if (!_isBiting)
             {
-                _wolfieMainController._isBiting = false;
+                _wolfieMainController.IsBiting = false;
             }
         }
 

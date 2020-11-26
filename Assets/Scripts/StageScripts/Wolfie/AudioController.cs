@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
@@ -10,22 +11,17 @@ namespace StageScripts.Wolfie
         [SerializeField] private AudioClip slideSound = null;
         [SerializeField] private AudioClip clockSound = null;
         [SerializeField] private AudioClip shieldSound = null;
+        [SerializeField] private AudioClip lossSound = null;
+        [SerializeField] private AudioClip bittenTreeSound = null;
 
-        internal void Bite()
+        internal void PlaySound(Sounds sound)
         {
-            audioSource.clip = biteSound;
-            audioSource.Play();
-        }
-
-        internal void Jump()
-        {
-            audioSource.clip = jumpSound;
-            audioSource.Play();
-        }
-
-        internal void Slide()
-        {
-            audioSource.clip = slideSound;
+            if (sound == Sounds.BiteSound) audioSource.clip = biteSound;
+            else if (sound == Sounds.JumpSound) audioSource.clip = jumpSound;
+            else if (sound == Sounds.SlideSound) audioSource.clip = slideSound;
+            else if (sound == Sounds.ShieldSound) audioSource.clip = shieldSound;
+            else if (sound == Sounds.LossGameSound) audioSource.clip = lossSound;
+            else if (sound == Sounds.BittenTreeSound) audioSource.clip = bittenTreeSound;
             audioSource.Play();
         }
     }

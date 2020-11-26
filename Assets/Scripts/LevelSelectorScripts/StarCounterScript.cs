@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace World__Map_Scripts
+namespace LevelSelectorScripts
 {
     public class StarCounterScript : MonoBehaviour
     {
@@ -26,11 +26,13 @@ namespace World__Map_Scripts
 
         public void ResetAllScoresButtonPressed()
         {
-            for (int i = 1; i <= amountOfStages; i++)
-            {
-                PlayerPrefs.SetInt("level" + i + "Stars", 0);
-                PlayerPrefs.SetInt("level" + i + "Score", 0);
-            }
+//            for (int i = 1; i <= amountOfStages; i++)
+//            {
+//                PlayerPrefs.SetInt("level" + i + "Stars", 0);
+//                PlayerPrefs.SetInt("level" + i + "Score", 0);
+//            }
+            
+            PlayerPrefs.DeleteAll();
 
             SceneManager.LoadScene("WorldMap");
         }
