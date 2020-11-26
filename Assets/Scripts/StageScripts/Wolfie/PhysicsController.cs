@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
@@ -32,18 +31,5 @@ namespace StageScripts.Wolfie
         {
             rb.AddForce(Vector2.up * jumpHeight);
         }
-
-        internal void Bite()
-        {
-            if (GameControl.Instance.obstaclesInScene == null ||
-                !GameControl.Instance.obstaclesInScene[0].tag.Contains("Bite")) return;
-            GameObject obstacleToDelete = GameControl.Instance.obstaclesInScene[0];
-            GameControl.Instance.obstaclesInScene.RemoveAt(0);
-            Destroy(obstacleToDelete);
-        }
-        
-        
-        
-        
     }
 }

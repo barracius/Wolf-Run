@@ -9,6 +9,5 @@
         Stunned,
         OnFire
     }
-    
-    
+
 }

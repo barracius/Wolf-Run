@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Helpers;
+using StageScripts.Wolfie.Bite;
 using UnityEngine;
 
 namespace StageScripts.Wolfie
@@ -14,10 +14,11 @@ namespace StageScripts.Wolfie
         internal SpriteRenderer SrBarrier;
         [SerializeField] internal WolfieState wolfieState = WolfieState.Running;
         private bool _isSliding = false;
-        internal bool IsJumping = false;
-
-
+        internal bool IsJumping = false, _isBiting = false;
         internal int ShieldCharges = 0;
+        private GameObject _biteGameObject;
+        private BiteScript _biteScript;
+
         private void Update()
         {
             if (wolfieState == WolfieState.OnFire)
@@ -44,8 +45,9 @@ namespace StageScripts.Wolfie
                     IsJumping = true;
                     wolfieState = WolfieState.Running;
                     break;
-                case WolfieState.Biting:
-                    physicsController.Bite();
+                case WolfieState.Biting when !_isBiting:
+                    _isBiting = true;
+                    yield return _biteScript.Bite();
                     audioController.Bite();
                     wolfieState = WolfieState.Running;
                     break;
@@ -61,7 +63,10 @@ namespace StageScripts.Wolfie
             Barrier = transform.Find("Barrier").gameObject;
             SrBarrier = Barrier.GetComponent<SpriteRenderer>();
             Barrier.SetActive(false);
-            
+
+            _biteGameObject = transform.Find("BiteGameObject").gameObject;
+            _biteScript = _biteGameObject.GetComponent<BiteScript>();
+            _biteGameObject.SetActive(false);
         }
 
         private IEnumerator Slide()
