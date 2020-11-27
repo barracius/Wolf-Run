@@ -13,8 +13,7 @@ namespace StageScripts.Wolfie
         internal GameObject Barrier;
         internal SpriteRenderer SrBarrier;
         [SerializeField] internal WolfieState wolfieState = WolfieState.Running;
-        private bool _isSliding = false;
-        internal bool IsJumping = false, IsBiting = false;
+        internal bool IsJumping = false, IsBiting = false, IsSliding = false;
         internal int ShieldCharges = 0;
         private GameObject _biteGameObject;
         private BiteScript _biteScript;
@@ -51,7 +50,7 @@ namespace StageScripts.Wolfie
                     audioController.PlaySound(Sounds.BiteSound);
                     wolfieState = WolfieState.Running;
                     break;
-                case WolfieState.Sliding when !_isSliding:
+                case WolfieState.Sliding when !IsSliding:
                     yield return StartCoroutine(Slide());
                     break;
             }
@@ -71,13 +70,13 @@ namespace StageScripts.Wolfie
 
         private IEnumerator Slide()
         {
-            _isSliding = true;
+            IsSliding = true;
             audioController.PlaySound(Sounds.SlideSound);
             physicsController.SlideBegin();
             yield return new WaitForSeconds(maxSlideTime);
             physicsController.SlideEnd();
             wolfieState = WolfieState.Running;
-            _isSliding = false;
+            IsSliding = false;
         }
     }
 }

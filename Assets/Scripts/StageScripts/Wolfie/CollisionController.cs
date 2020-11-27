@@ -24,6 +24,7 @@ namespace StageScripts.Wolfie
                 }
                 else
                 {
+                    if(mainController.IsSliding || mainController.IsBiting || mainController.IsJumping) mainController.StopAllCoroutines(); 
                     mainController.wolfieState = WolfieState.Stunned;
                 }
             }
