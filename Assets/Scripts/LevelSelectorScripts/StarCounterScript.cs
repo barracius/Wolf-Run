@@ -23,18 +23,5 @@ namespace LevelSelectorScripts
 
             _textComponent.text = _counter + "/" + amountOfStages*3;
         }
-
-        public void ResetAllScoresButtonPressed()
-        {
-//            for (int i = 1; i <= amountOfStages; i++)
-//            {
-//                PlayerPrefs.SetInt("level" + i + "Stars", 0);
-//                PlayerPrefs.SetInt("level" + i + "Score", 0);
-//            }
-            
-            PlayerPrefs.DeleteAll();
-
-            SceneManager.LoadScene("WorldMap");
-        }
     }
 }

@@ -62,5 +62,5 @@ crashlytics-build.properties
 .idea
 
 # Sounds downloaded
-[Aa]ssets/Sounds/Interface Sounds
-[Aa]ssets/Sounds/Sci-Fi Sounds
+/[Aa]ssets/Sounds/Interface Sounds
+/[Aa]ssets/Sounds/Sci-Fi Sounds
