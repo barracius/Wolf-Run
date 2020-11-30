@@ -17,7 +17,13 @@
         SlideSound,
         BittenTreeSound,
         ShieldSound,
-        LossGameSound,
+        LossGameSound
+    }
+
+    public enum SkinType
+    {
+        Wolfie,
+        Background
     }
 
 }

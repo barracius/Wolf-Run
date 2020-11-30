@@ -1,4 +1,5 @@
 ﻿using System;
+using Helpers;
 using UnityEngine;
 
 namespace MainMenuScripts
@@ -10,41 +11,52 @@ namespace MainMenuScripts
         private int _currentWolfieSelectedSkin;
         private int _currentBackgroundSelectedSkin;
 
-        internal void SelectCurrentSkin(string thing)
+        private void SelectCurrentSkin(SkinType skinType)
         {
-            switch (thing)
+            switch (skinType)
             {
-                case "wolfie":
+                case SkinType.Wolfie:
                     _currentWolfieSelectedSkin = PlayerPrefs.GetInt("Wolf Body Skin", 0);
-                    wolfieSkins[_currentWolfieSelectedSkin].Find("SelectionUI").gameObject.SetActive(true);
+                    wolfieSkins[_currentWolfieSelectedSkin].GetComponent<SkinButtonScript>().SelectingUiChange(true);
                     break;
-                case "background":
-                    _currentBackgroundSelectedSkin = PlayerPrefs.GetInt("Background Skin", 0);
-                    backgroundSkins[_currentBackgroundSelectedSkin].Find("SelectionUI").gameObject.SetActive(true);
+                case SkinType.Background:
+                    _currentBackgroundSelectedSkin = PlayerPrefs.GetInt("MainMenu Background Skin", 0);
+                    backgroundSkins[_currentBackgroundSelectedSkin].GetComponent<SkinButtonScript>().SelectingUiChange(true);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(skinType), skinType, null);
             }
             
         }
 
-        internal void UnselectOtherSkins(int lastSelected, string thing)
+        internal void UnselectOtherSkins(int lastSelected, SkinType skinType)
         {
-            switch (thing)
+            
+            switch (skinType)
             {
-                case "wolfie":
-                    for (int i = 0; i < wolfieSkins.Length; i++)
+                case SkinType.Wolfie:
+                    for (var i = 0; i < wolfieSkins.Length; i++)
                     {
                         if (i == lastSelected) continue;
-                        wolfieSkins[i].Find("SelectionUI").gameObject.SetActive(false);
+                        wolfieSkins[i].GetComponent<SkinButtonScript>().SelectingUiChange(false);
                     }
                     break;
-                case "background":
-                    for (int i = 0; i < backgroundSkins.Length; i++)
+                case SkinType.Background:
+                    for (var i = 0; i < backgroundSkins.Length; i++)
                     {
                         if (i == lastSelected) continue;
-                        backgroundSkins[i].Find("SelectionUI").gameObject.SetActive(false);
+                        backgroundSkins[i].GetComponent<SkinButtonScript>().SelectingUiChange(false);
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(skinType), skinType, null);
             }
+        }
+
+        internal void SelectCurrentSkins()
+        {
+            SelectCurrentSkin(SkinType.Wolfie);
+            SelectCurrentSkin(SkinType.Background);
         }
     }
 }
