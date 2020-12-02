@@ -2,32 +2,41 @@
 using Helpers;
 using UnityEngine;
 
-namespace MainMenuScripts
+namespace CustomizationScripts
 {
-    public class SkinButtonScript : MonoBehaviour
+    public class CustomizationButtonScript : MonoBehaviour
     {
-        internal Transform SelectionUi;
-        internal Transform LockedUi;
-        internal Transform SkinOutlineUi;
-        public bool isLocked;
-        public int skinNumber;
+         private Transform _selectionUi = null;
+        private Transform _lockedUi = null;
+        private Transform _skinOutlineUi = null;
+        public bool isLocked = false;
+        public int skinNumber = 0;
         public SkinType skinType;
 
         private void Start()
         {
-            SelectionUi = transform.Find("SelectionUI");
-            LockedUi = transform.Find("LockedUI");
-            SkinOutlineUi = transform.Find("SkinOutlineUI");
-            SelectionUi.gameObject.SetActive(false);
+            AssignUis();
+            DetermineIfLocked();
 
+        }
+
+        private void AssignUis()
+        {
+            _selectionUi = transform.Find("SelectionUI");
+            _lockedUi = transform.Find("LockedUI");
+            _skinOutlineUi = transform.Find("SkinOutlineUI");
+        }
+
+        private void DetermineIfLocked()
+        {
             if (CheckLock())
             {
                 isLocked = true;
+                _lockedUi.gameObject.SetActive(true);
             }
             else
             {
                 isLocked = false;
-                LockedUi.gameObject.SetActive(false);
             }
         }
 
@@ -60,16 +69,19 @@ namespace MainMenuScripts
 
         public void SelectingUiChange(bool selecting)
         {
+            AssignUis();
             if (selecting)
             {
-                SkinOutlineUi.gameObject.SetActive(false);
-                SelectionUi.gameObject.SetActive(true);
+                _skinOutlineUi.gameObject.SetActive(false);
+                _selectionUi.gameObject.SetActive(true);
             }
             else
             {
-                SelectionUi.gameObject.SetActive(false);
-                SkinOutlineUi.gameObject.SetActive(true);
+                _selectionUi.gameObject.SetActive(false);
+                _skinOutlineUi.gameObject.SetActive(true);
             }
         }
+        
+        
     }
 }

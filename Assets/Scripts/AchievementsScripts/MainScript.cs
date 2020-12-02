@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace LevelSelectorScripts
+namespace AchievementsScripts
 {
-    public class UiScript : MonoBehaviour
+    public class MainScript : MonoBehaviour
     {
-        public void GoBackButtonPressed()
+        public void OnGoBackButtonClick()
         {
             SceneManager.LoadScene("MainMenu");
         }
