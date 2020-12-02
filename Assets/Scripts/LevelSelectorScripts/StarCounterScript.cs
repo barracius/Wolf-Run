@@ -9,19 +9,12 @@ namespace LevelSelectorScripts
         private Text _textComponent;
         private int _stars;
         private int _counter;
-        public int amountOfStages;
-        
+
         void Start()
         {
-            _counter = 0;
             _textComponent = GetComponent<Text>();
-            for (int i = 1; i <= amountOfStages; i++)
-            {
-                _stars = PlayerPrefs.GetInt("level" + i + "Stars", 0);
-                _counter += _stars;
-            }
-
-            _textComponent.text = _counter + "/" + amountOfStages*3;
+            _counter = Helpers.Methods.CalculateTotalStars();
+            _textComponent.text = _counter + "/" + (int) Helpers.GobalVariables.NumberOfStages * 3;
         }
     }
 }

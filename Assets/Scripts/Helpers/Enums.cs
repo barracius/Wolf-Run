@@ -26,4 +26,16 @@
         Background
     }
 
+    public enum GobalVariables
+    {
+        NumberOfStages = 2
+    }
+
+    public enum TypeOfAchievement
+    {
+        ScoreInStage,
+        StageCompletion,
+        TotalStars
+    }
+
 }

@@ -11,19 +11,19 @@ namespace StageScripts
     public class GameControl : MonoBehaviour
     {
         public static GameControl Instance;
-        [SerializeField] private Canvas canvas;
+        [SerializeField] private Canvas canvas = null;
     
     
         [SerializeField] private GameObject[] obstacles = null, powerUps = null;
-        [SerializeField] private Transform spawnPoint;
+        [SerializeField] private Transform spawnPoint = null;
         [SerializeField] private float spawnRate = 2f;
         [SerializeField] private float timeToBoost = 5f;
         [SerializeField] private int oneStarScore = 20;
         [SerializeField] private int twoStarScore = 50;
         [SerializeField] private int threeStarScore = 100;
         [SerializeField] private float clockPowerUpDuration = 20f;
-        [SerializeField] private Transform wolfie;
-        [SerializeField] private Sprite[] wolfieSprites;
+        [SerializeField] private Transform wolfie = null;
+        [SerializeField] private Sprite[] wolfieSprites = null;
 
         private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp, _clockPowerUpTimeLeft;
         private bool _clockPowerUpActivated = false;

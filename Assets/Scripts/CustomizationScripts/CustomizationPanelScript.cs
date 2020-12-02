@@ -2,9 +2,9 @@
 using Helpers;
 using UnityEngine;
 
-namespace MainMenuScripts
+namespace CustomizationScripts
 {
-    public class SkinPanelScript : MonoBehaviour
+    public class CustomizationPanelScript : MonoBehaviour
     {
         public Transform[] wolfieSkins;
         public Transform[] backgroundSkins;
@@ -17,16 +17,15 @@ namespace MainMenuScripts
             {
                 case SkinType.Wolfie:
                     _currentWolfieSelectedSkin = PlayerPrefs.GetInt("Wolf Body Skin", 0);
-                    wolfieSkins[_currentWolfieSelectedSkin].GetComponent<SkinButtonScript>().SelectingUiChange(true);
+                    wolfieSkins[_currentWolfieSelectedSkin].GetComponent<CustomizationButtonScript>().SelectingUiChange(true);
                     break;
                 case SkinType.Background:
                     _currentBackgroundSelectedSkin = PlayerPrefs.GetInt("MainMenu Background Skin", 0);
-                    backgroundSkins[_currentBackgroundSelectedSkin].GetComponent<SkinButtonScript>().SelectingUiChange(true);
+                    backgroundSkins[_currentBackgroundSelectedSkin].GetComponent<CustomizationButtonScript>().SelectingUiChange(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(skinType), skinType, null);
             }
-            
         }
 
         internal void UnselectOtherSkins(int lastSelected, SkinType skinType)
@@ -38,14 +37,14 @@ namespace MainMenuScripts
                     for (var i = 0; i < wolfieSkins.Length; i++)
                     {
                         if (i == lastSelected) continue;
-                        wolfieSkins[i].GetComponent<SkinButtonScript>().SelectingUiChange(false);
+                        wolfieSkins[i].GetComponent<CustomizationButtonScript>().SelectingUiChange(false);
                     }
                     break;
                 case SkinType.Background:
                     for (var i = 0; i < backgroundSkins.Length; i++)
                     {
                         if (i == lastSelected) continue;
-                        backgroundSkins[i].GetComponent<SkinButtonScript>().SelectingUiChange(false);
+                        backgroundSkins[i].GetComponent<CustomizationButtonScript>().SelectingUiChange(false);
                     }
                     break;
                 default:
@@ -57,6 +56,11 @@ namespace MainMenuScripts
         {
             SelectCurrentSkin(SkinType.Wolfie);
             SelectCurrentSkin(SkinType.Background);
+        }
+
+        private void Start()
+        {
+            SelectCurrentSkins();
         }
     }
 }
