@@ -44,6 +44,13 @@ namespace CustomizationScripts
         private void Start()
         {
             _customizationPanelScript = customizationPanel.GetComponent<CustomizationPanelScript>();
+            Methods.PlayMainMenuMusic();
+        }
+        
+        private void Update()
+        {
+            Methods.CheckInputAndGoBackToMainMenu();
+            Methods.CheckInputAndCloseGame();
         }
     }
 }

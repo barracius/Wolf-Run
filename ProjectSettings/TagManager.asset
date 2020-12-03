@@ -11,6 +11,7 @@ TagManager:
   - Obstacle_Slide
   - PowerUp_Clock
   - PowerUp_Shield
+  - Music
   layers:
   - Default
   - TransparentFX
