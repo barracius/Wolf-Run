@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Helpers
 {
@@ -14,6 +15,21 @@ namespace Helpers
             }
 
             return counter;
+        }
+
+        public static void CheckInputAndGoBackToMainMenu()
+        {
+            if (Input.GetKey(KeyCode.Backspace))
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+
+        public static void CheckInputAndCloseGame()
+        {
+            if (Input.GetKey(KeyCode.Escape)){
+                Application.Quit();                
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using StageScripts.Wolfie;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -118,6 +119,8 @@ namespace StageScripts
             if (Time.time > _nextSpawn) SpawnObstacle();
             if (Time.unscaledTime > _nextBoost && !GameStopped && !_clockPowerUpActivated) BoostTime();
             CheckInGameStarsAchieved(_yourScore);
+            Methods.CheckInputAndGoBackToMainMenu();
+            Methods.CheckInputAndCloseGame();
         }
 
         private void CheckInGameStarsAchieved(int score)
@@ -184,7 +187,7 @@ namespace StageScripts
 
         public void OnCrossPressed()
         {
-            SceneManager.LoadScene("LevelSelector");
+            SceneManager.LoadScene("LevelSelection");
         }
 
         private void AdjustTotalStars()
@@ -274,7 +277,7 @@ namespace StageScripts
         private void LoadSkins()
         {
             //Get current skins through player prefs
-            int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 3);
+            int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 0git );
         
             //Set current skins
             _wolfieSpriteRenderer.sprite = wolfieSprites[wolfBody];

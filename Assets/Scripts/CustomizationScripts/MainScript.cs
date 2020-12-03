@@ -45,5 +45,11 @@ namespace CustomizationScripts
         {
             _customizationPanelScript = customizationPanel.GetComponent<CustomizationPanelScript>();
         }
+        
+        private void Update()
+        {
+            Methods.CheckInputAndGoBackToMainMenu();
+            Methods.CheckInputAndCloseGame();
+        }
     }
 }
