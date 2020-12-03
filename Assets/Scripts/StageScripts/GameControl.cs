@@ -277,7 +277,7 @@ namespace StageScripts
         private void LoadSkins()
         {
             //Get current skins through player prefs
-            int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 0git );
+            int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 0);
         
             //Set current skins
             _wolfieSpriteRenderer.sprite = wolfieSprites[wolfBody];
