@@ -45,6 +45,7 @@ namespace StageScripts
 
         private void Start()
         {
+            Methods.DontPlayMainMenuMusic();
             //Assign panels
             _lossPanel = canvas.transform.Find("LossPanel").gameObject;
             _startPanel = canvas.transform.Find("StartPanel").gameObject;

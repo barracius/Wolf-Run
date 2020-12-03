@@ -14,6 +14,7 @@ namespace MainMenuScripts
         private void Start()
         {
             background.GetComponent<BackgroundImageScript>().SetBackground();
+            Methods.PlayMainMenuMusic();
         }
 
         public void OnCustomizationButtonClick()

@@ -16,6 +16,11 @@ namespace AchievementsScripts
             Methods.CheckInputAndGoBackToMainMenu();
             Methods.CheckInputAndCloseGame();
         }
+        
+        private void Start()
+        {
+            Methods.PlayMainMenuMusic();
+        }
     }
     
 }

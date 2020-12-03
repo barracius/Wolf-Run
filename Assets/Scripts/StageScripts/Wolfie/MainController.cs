@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Helpers;
 using StageScripts.Wolfie.Bite;
 using UnityEngine;
@@ -17,13 +18,20 @@ namespace StageScripts.Wolfie
         internal int ShieldCharges = 0;
         private GameObject _biteGameObject;
         private BiteScript _biteScript;
+        private bool _lossSoundPlayed = false;
 
         private void Update()
         {
-            if (wolfieState == WolfieState.OnFire)
-            {
-                GameControl.Instance.GameOver();
-            }
+            if (wolfieState != WolfieState.OnFire) return;
+            GameControl.Instance.GameOver();
+            PlayGameOverSound();
+        }
+
+        private void PlayGameOverSound()
+        {
+            if (_lossSoundPlayed) return;
+            audioController.PlaySound(Sounds.LossGameSound);
+            _lossSoundPlayed = true;
         }
 
         private void FixedUpdate()
@@ -44,15 +52,21 @@ namespace StageScripts.Wolfie
                     IsJumping = true;
                     wolfieState = WolfieState.Running;
                     break;
-                case WolfieState.Biting when !IsBiting:
+                case WolfieState.Biting when !IsBiting && !IsJumping:
                     IsBiting = true;
                     yield return _biteScript.Bite();
                     audioController.PlaySound(Sounds.BiteSound);
                     wolfieState = WolfieState.Running;
                     break;
-                case WolfieState.Sliding when !IsSliding:
+                case WolfieState.Sliding when !IsSliding && !IsJumping:
                     yield return StartCoroutine(Slide());
                     break;
+                case WolfieState.Running:
+                    break;
+                case WolfieState.OnFire:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

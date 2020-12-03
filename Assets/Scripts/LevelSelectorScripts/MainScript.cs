@@ -17,5 +17,10 @@ namespace LevelSelectorScripts
             Methods.CheckInputAndGoBackToMainMenu();
             Methods.CheckInputAndCloseGame();
         }
+
+        private void Start()
+        {
+            Methods.PlayMainMenuMusic();
+        }
     }
 }

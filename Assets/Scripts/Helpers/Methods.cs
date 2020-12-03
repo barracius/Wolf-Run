@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MainMenuScripts;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Helpers
@@ -30,6 +31,16 @@ namespace Helpers
             if (Input.GetKey(KeyCode.Escape)){
                 Application.Quit();                
             }
+        }
+
+        public static void PlayMainMenuMusic()
+        {
+            GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().PlayMusic();
+        }
+
+        public static void DontPlayMainMenuMusic()
+        {
+            GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().StopMusic();
         }
     }
 }
