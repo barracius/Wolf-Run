@@ -8,6 +8,7 @@ namespace LevelSelectorScripts
     public class StageController : MonoBehaviour
     {
         [SerializeField] public int numberOfStage;
+        public TypeOfStage typeOfStage;
         private Transform _locked;
         private Transform _unlocked;
         private int _stars;
@@ -23,18 +24,21 @@ namespace LevelSelectorScripts
 
         private void Start()
         {
-            _locked = gameObject.transform.Find("Locked");
-            _unlocked = gameObject.transform.Find("Unlocked");
-            _achievedLeftStar = _unlocked.Find("A Left Star");
-            _achievedMidStar = _unlocked.Find("A Mid Star");
-            _achievedRightStar = _unlocked.Find("A Right Star");
-            _emptyLeftStar = _unlocked.Find("E Left Star");
-            _emptyMidStar = _unlocked.Find("E Mid Star");
-            _emptyRightStar = _unlocked.Find("E Right Star");
-            _highScoreText = _unlocked.Find("HighScore").GetComponent<Text>();
+            Assignations();
 
             if (CheckIfUnlocked())
             {
+                if (typeOfStage == TypeOfStage.Secret)
+                {
+                    if (CheckIfSecretStageUnlocked())
+                    {
+                        UnlockSecretStage();
+                    }
+                    else
+                    {
+                        LockSecretStage();
+                    }
+                }
                 _locked.gameObject.SetActive(false);
                 _unlocked.gameObject.SetActive(true);
                 CalculateLevelStars();
@@ -46,6 +50,34 @@ namespace LevelSelectorScripts
                 _unlocked.gameObject.SetActive(false);
                 _isLocked = true;
             }
+        }
+
+        private void LockSecretStage()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void UnlockSecretStage()
+        {
+            gameObject.SetActive(true);
+        }
+
+        private bool CheckIfSecretStageUnlocked()
+        {
+            return PlayerPrefs.GetInt("SecretStageLockedStatus", 0) == 1;
+        }
+
+        private void Assignations()
+        {
+            _locked = gameObject.transform.Find("Locked");
+            _unlocked = gameObject.transform.Find("Unlocked");
+            _achievedLeftStar = _unlocked.Find("A Left Star");
+            _achievedMidStar = _unlocked.Find("A Mid Star");
+            _achievedRightStar = _unlocked.Find("A Right Star");
+            _emptyLeftStar = _unlocked.Find("E Left Star");
+            _emptyMidStar = _unlocked.Find("E Mid Star");
+            _emptyRightStar = _unlocked.Find("E Right Star");
+            _highScoreText = _unlocked.Find("HighScore").GetComponent<Text>();
         }
 
         private void CalculateLevelStars()
@@ -86,7 +118,7 @@ namespace LevelSelectorScripts
 
         private bool CheckIfUnlocked()
         {
-            if (numberOfStage == 1) return true;
+            if (numberOfStage == 1 || typeOfStage == TypeOfStage.Secret) return true;
             _prevStageStars = Methods.GetStarsInStage(numberOfStage - 1);
             return _prevStageStars != 0;
         }

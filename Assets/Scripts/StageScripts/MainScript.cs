@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Helpers;
-using StageScripts.Wolfie;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,7 +31,7 @@ namespace StageScripts
         private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
         private Text _highScoreText, _yourScoreText, _shieldChargesText, _clockRemainingTimeText, _oneStarText, _twoStarText, _threeStarText;
         private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon, _targetOneStar, _targetTwoStar, _targetThreeStar, _objectivePanel;
-        private MainController _wolfieMainController;
+        private Wolfie.MainController _wolfieMainController;
         private SpriteRenderer _wolfieSpriteRenderer;
 
         private bool _gameStopped;
@@ -112,7 +111,7 @@ namespace StageScripts
             _nextBoost = Time.unscaledTime + timeToBoost;
 
             //Assign wolfies values
-            _wolfieMainController = wolfie.GetComponent<MainController>();
+            _wolfieMainController = wolfie.GetComponent<Wolfie.MainController>();
             _wolfieSpriteRenderer = wolfie.GetComponent<SpriteRenderer>();
         }
 
@@ -157,7 +156,7 @@ namespace StageScripts
         {
             _nextSpawn = Time.time + spawnRate;
             if (obstaclesInScene.Count != 0) return;
-            var obstacleOrPowerUp = Random.Range(0, 10);
+            var obstacleOrPowerUp = Random.Range(0, 20);
             int obstacleToSpawn;
             if (obstacleOrPowerUp == 0)
             {

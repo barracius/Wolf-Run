@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muteButton: {fileID: 534011563}
-  unmuteButton: {fileID: 576317963}
+  unMuteButton: {fileID: 576317963}
 --- !u!4 &224931253
 Transform:
   m_ObjectHideFlags: 0
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 576317966}
   - component: {fileID: 576317965}
   m_Layer: 5
-  m_Name: UnmuteButton
+  m_Name: UnMuteButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

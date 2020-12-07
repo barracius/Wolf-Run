@@ -27,7 +27,7 @@
         SecretStage
     }
 
-    public enum GobalVariables
+    public enum GlobalVariables
     {
         NumberOfStages = 3
     }
@@ -43,7 +43,13 @@
     public enum MuteSetting
     {
         Muted,
-        Unmuted
+        UnMuted
+    }
+
+    public enum TypeOfStage
+    {
+        Normal,
+        Secret
     }
 
 }

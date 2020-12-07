@@ -7,23 +7,23 @@ namespace SettingsScripts
     public class MainScript : MonoBehaviour
     {
         public GameObject muteButton;
-        public GameObject unmuteButton;
+        public GameObject unMuteButton;
         private MuteSetting _muteSetting;
         private void Start()
         {
             Methods.PlayMainMenuMusic();
 
-            _muteSetting = PlayerPrefs.GetInt("Muted", 0) == 0 ? MuteSetting.Unmuted : MuteSetting.Muted;
+            _muteSetting = PlayerPrefs.GetInt("Muted", 0) == 0 ? MuteSetting.UnMuted : MuteSetting.Muted;
 
             switch (_muteSetting)
             {
-                case MuteSetting.Unmuted:
+                case MuteSetting.UnMuted:
                     muteButton.SetActive(true);
-                    unmuteButton.SetActive(false);
+                    unMuteButton.SetActive(false);
                     break;
                 case MuteSetting.Muted:
                     muteButton.SetActive(false);
-                    unmuteButton.SetActive(true);
+                    unMuteButton.SetActive(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -45,7 +45,7 @@ namespace SettingsScripts
         {
             AudioListener.volume = 0;
             muteButton.SetActive(false);
-            unmuteButton.SetActive(true);
+            unMuteButton.SetActive(true);
             PlayerPrefs.SetInt("Muted", 1);
         }
 
@@ -53,7 +53,7 @@ namespace SettingsScripts
         {
             AudioListener.volume = 1;
             muteButton.SetActive(true);
-            unmuteButton.SetActive(false);
+            unMuteButton.SetActive(false);
             PlayerPrefs.SetInt("Muted", 0);
         }
         

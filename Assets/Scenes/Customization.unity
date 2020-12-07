@@ -696,7 +696,7 @@ PrefabInstance:
     - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_Name
-      value: Skin
+      value: BackgroundSkin3
       objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
@@ -910,6 +910,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 09fd048299df84a1e8b7b15f2ad4c355,
         type: 3}
+    - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
+        type: 3}
+      propertyPath: m_Name
+      value: BackgroundSkin0
+      objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1365,7 +1370,7 @@ PrefabInstance:
     - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_Name
-      value: Skin (1)
+      value: WolfieSkin1
       objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
@@ -2033,6 +2038,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b6d7cbb3bfe0b401892ec6f8135aae77,
         type: 3}
+    - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
+        type: 3}
+      propertyPath: m_Name
+      value: BackgroundSkin2
+      objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2265,6 +2275,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 61aa986f040ad478cabcd6f3174f1547,
         type: 3}
+    - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
+        type: 3}
+      propertyPath: m_Name
+      value: BackgroundSkin1
+      objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2424,7 +2439,7 @@ PrefabInstance:
     - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_Name
-      value: Skin (2)
+      value: WolfieSkin2
       objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
@@ -2575,7 +2590,7 @@ PrefabInstance:
     - target: {fileID: 7638272723338107177, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}
       propertyPath: m_Name
-      value: Skin
+      value: WolfieSkin0
       objectReference: {fileID: 0}
     - target: {fileID: 8163166329370677704, guid: 47971ff8436e8a043bde43a3589c6c67,
         type: 3}

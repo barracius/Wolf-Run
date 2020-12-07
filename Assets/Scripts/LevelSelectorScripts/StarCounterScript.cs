@@ -14,7 +14,7 @@ namespace LevelSelectorScripts
         {
             _textComponent = GetComponent<Text>();
             _counter = Helpers.Methods.CalculateTotalStars();
-            _textComponent.text = _counter + "/" + (int) Helpers.GobalVariables.NumberOfStages * 3;
+            _textComponent.text = _counter + "/" + (int) Helpers.GlobalVariables.NumberOfStages * 3;
         }
     }
 }
