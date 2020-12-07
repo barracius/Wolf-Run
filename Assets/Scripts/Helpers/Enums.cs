@@ -29,7 +29,7 @@
 
     public enum GobalVariables
     {
-        NumberOfStages = 2
+        NumberOfStages = 3
     }
 
     public enum TypeOfAchievement

@@ -7,10 +7,13 @@ namespace CustomizationScripts
 {
     public class MainScript : MonoBehaviour
     {
+        public static MainScript Instance;
         [SerializeField] private GameObject customizationPanel = null;
         private GameObject _currentCustomizationButtonSelected = null;
         private CustomizationButtonScript _currentCustomizationButtonScript = null;
         private CustomizationPanelScript _customizationPanelScript = null;
+
+        public event Action UpdateBackground;
         
         public void OnGoBackButtonClick()
         {
@@ -34,6 +37,7 @@ namespace CustomizationScripts
                 case SkinType.Background:
                     PlayerPrefs.SetInt("MainMenu Background Skin", _currentCustomizationButtonScript.skinNumber);
                     _customizationPanelScript.UnselectOtherSkins(_currentCustomizationButtonScript.skinNumber, SkinType.Background);
+                    UpdateBackground?.Invoke();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -42,6 +46,8 @@ namespace CustomizationScripts
 
         private void Start()
         {
+            if (Instance == null) Instance = this;
+            else if (Instance != this) Destroy(gameObject);
             _customizationPanelScript = customizationPanel.GetComponent<CustomizationPanelScript>();
             Methods.PlayMainMenuMusic();
         }

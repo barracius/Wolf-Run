@@ -9,11 +9,9 @@ namespace MainMenuScripts
 {
     public class MainScript : MonoBehaviour
     {
-        [SerializeField] private GameObject background = null;
 
         private void Start()
         {
-            background.GetComponent<BackgroundImageScript>().SetBackground();
             Methods.PlayMainMenuMusic();
         }
 
