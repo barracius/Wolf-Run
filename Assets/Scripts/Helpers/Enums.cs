@@ -23,7 +23,8 @@
     public enum SkinType
     {
         Wolfie,
-        Background
+        Background,
+        SecretStage
     }
 
     public enum GobalVariables
@@ -35,7 +36,8 @@
     {
         ScoreInStage,
         StageCompletion,
-        TotalStars
+        TotalStars,
+        SecretStage
     }
 
 }

@@ -14,60 +14,33 @@ namespace StageScripts.Wolfie
         internal GameObject Barrier;
         internal SpriteRenderer SrBarrier;
         [SerializeField] internal WolfieState wolfieState = WolfieState.Running;
-        internal bool IsJumping = false, IsBiting = false, IsSliding = false;
-        internal int ShieldCharges = 0;
+        private bool _isJumping = false, _isBiting = false, _isSliding = false;
+        private int _shieldCharges = 0;
         private GameObject _biteGameObject;
         private BiteScript _biteScript;
-        private bool _lossSoundPlayed = false;
 
-        private void Update()
+        private void SubscribeToEvents()
         {
-            if (wolfieState != WolfieState.OnFire) return;
-            GameControl.Instance.GameOver();
-            PlayGameOverSound();
+            var inputController = GetComponent<InputController>();
+            inputController.OnJumpInputPressed += Jump;
+            inputController.OnSlideInputPressed += Slide;
+            inputController.OnBiteInputPressed += Bite;
+            var collisionController = GetComponent<CollisionController>();
+            collisionController.OnJumpLanding += OnJumpLanding;
+            collisionController.OnObstacleHit += ObstacleHit;
+            collisionController.OnShieldPowerUpCollected += OnShieldPowerUpCollected;
+            collisionController.OnFireTouched += OnFire;
+            collisionController.OnClockPowerUpCollected += OnClockPowerUpCollected;
+            _biteScript.OnStopBiting += OnStopBiting;
         }
 
-        private void PlayGameOverSound()
+        private void Jump()
         {
-            if (_lossSoundPlayed) return;
-            audioController.PlaySound(Sounds.LossGameSound);
-            _lossSoundPlayed = true;
-        }
-
-        private void FixedUpdate()
-        {
-            StartCoroutine(MakeAction());
-        }
-
-        private IEnumerator MakeAction()
-        {
-            switch (wolfieState)
-            {
-                case WolfieState.Stunned:
-                    physicsController.GetStunned();
-                    break;
-                case WolfieState.Jumping when !IsJumping:
-                    physicsController.Jump();
-                    audioController.PlaySound(Sounds.JumpSound);
-                    IsJumping = true;
-                    wolfieState = WolfieState.Running;
-                    break;
-                case WolfieState.Biting when !IsBiting && !IsJumping:
-                    IsBiting = true;
-                    yield return _biteScript.Bite();
-                    audioController.PlaySound(Sounds.BiteSound);
-                    wolfieState = WolfieState.Running;
-                    break;
-                case WolfieState.Sliding when !IsSliding && !IsJumping:
-                    yield return StartCoroutine(Slide());
-                    break;
-                case WolfieState.Running:
-                    break;
-                case WolfieState.OnFire:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            wolfieState = WolfieState.Jumping;
+            if (_isJumping || _isSliding || _isBiting) return; 
+            physicsController.Jump();
+            audioController.PlaySound(Sounds.JumpSound);
+            _isJumping = true;
         }
 
         private void Start()
@@ -80,17 +53,85 @@ namespace StageScripts.Wolfie
             _biteGameObject = transform.Find("BiteGameObject").gameObject;
             _biteScript = _biteGameObject.GetComponent<BiteScript>();
             _biteGameObject.SetActive(false);
+
+            SubscribeToEvents();
         }
 
-        private IEnumerator Slide()
+        private void Slide()
         {
-            IsSliding = true;
+            wolfieState = WolfieState.Sliding;
+            if (_isJumping || _isSliding || _isBiting) return;
+            StartCoroutine(SlideEnumerator());
+        }
+        
+        private IEnumerator SlideEnumerator()
+        {
+            _isSliding = true;
             audioController.PlaySound(Sounds.SlideSound);
             physicsController.SlideBegin();
             yield return new WaitForSeconds(maxSlideTime);
             physicsController.SlideEnd();
             wolfieState = WolfieState.Running;
-            IsSliding = false;
+            _isSliding = false;
+        }
+
+        private void Bite()
+        {
+            wolfieState = WolfieState.Biting;
+            if (_isJumping || _isSliding || _isBiting) return;
+            _isBiting = true;
+            StartCoroutine(_biteScript.Bite());
+            audioController.PlaySound(Sounds.BiteSound);
+        }
+
+        private void OnStopBiting()
+        {
+            _isBiting = false;
+            wolfieState = WolfieState.Running;
+        }
+
+        private void ObstacleHit()
+        {
+            if (_shieldCharges > 0)
+            {
+                _shieldCharges -= 1;
+                MainScript.Instance.UpdateShieldPowerUpState(_shieldCharges);
+                MainScript.Instance.obstaclesInScene.RemoveAt(0);
+            }
+            else
+            {
+                if(_isSliding || _isBiting || _isJumping) StopAllCoroutines();
+                wolfieState = WolfieState.Stunned;
+                physicsController.GetStunned();
+            }
+        }
+
+        private void OnJumpLanding()
+        {
+            _isJumping = false;
+            wolfieState = WolfieState.Running;
+        }
+
+        private void OnShieldPowerUpCollected()
+        {
+            if (_shieldCharges == 3)
+            {
+                return;
+            }
+            _shieldCharges += 1;
+            MainScript.Instance.UpdateShieldPowerUpState(_shieldCharges);
+        }
+
+        private void OnClockPowerUpCollected()
+        {
+            StartCoroutine(MainScript.Instance.ClockPowerUpActivate());
+        }
+
+        private void OnFire()
+        {
+            wolfieState = WolfieState.OnFire;
+            MainScript.Instance.GameOver();
+            audioController.PlaySound(Sounds.LossGameSound);
         }
     }
 }

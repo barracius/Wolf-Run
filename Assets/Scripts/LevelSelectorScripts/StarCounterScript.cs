@@ -10,7 +10,7 @@ namespace LevelSelectorScripts
         private int _stars;
         private int _counter;
 
-        void Start()
+        private void Start()
         {
             _textComponent = GetComponent<Text>();
             _counter = Helpers.Methods.CalculateTotalStars();

@@ -12,10 +12,11 @@ namespace AchievementsScripts
         public SkinType typeOfReward;
         public int numberOfReward;
         public int numberOfStage;
+        public int[] stages;
         private int _target;
         private Achievement _achievement;
         private bool _readyToClaim = false;
-        private bool _claimed = false;
+        //private bool _claimed = false;
         private GameObject _progressBar;
         private Slider _progress;
         private Text _progressBarText;
@@ -42,6 +43,9 @@ namespace AchievementsScripts
                 case SkinType.Background:
                     lockedStatus = PlayerPrefs.GetInt("BackgroundSkin" + numberOfReward + "LockedStatus", 0);
                     break;
+                case SkinType.SecretStage:
+                    lockedStatus = PlayerPrefs.GetInt("SecretStageLockedStatus", 0);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -52,7 +56,7 @@ namespace AchievementsScripts
             }
             else
             {
-                _claimed = true;
+                //_claimed = true;
                 _claimedText.SetActive(true);
             }
         }
@@ -87,6 +91,9 @@ namespace AchievementsScripts
                 case TypeOfAchievement.ScoreInStage:
                     _achievement = new ScoreInStageAchievement(numberOfStage, _target);
                     break;
+                case TypeOfAchievement.SecretStage:
+                    _achievement = new SecretStageAchievement(_target, stages);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -103,12 +110,16 @@ namespace AchievementsScripts
                 case SkinType.Background:
                     PlayerPrefs.SetInt("BackgroundSkin" + numberOfReward + "LockedStatus", 1);
                     break;
+                case SkinType.SecretStage:
+                    PlayerPrefs.SetInt("SecretStageLockedStatus", 1);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
+                
             }
 
             _readyToClaim = false;
-            _claimed = true;
+            //_claimed = true;
             _claimText.SetActive(false);
             _claimedText.SetActive(true);
         }

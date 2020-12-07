@@ -11,7 +11,7 @@ namespace Helpers
             var counter = 0;
             for (int i = 1; i <= (int) Helpers.GobalVariables.NumberOfStages; i++)
             {
-                var stars = PlayerPrefs.GetInt("level" + i + "Stars", 0);
+                var stars = GetStarsInStage(i);
                 counter += stars;
             }
 
@@ -41,6 +41,26 @@ namespace Helpers
         public static void DontPlayMainMenuMusic()
         {
             GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().StopMusic();
+        }
+
+        public static void GoBackToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        public static void GoBackToLevelSelection()
+        {
+            SceneManager.LoadScene("LevelSelection");
+        }
+
+        public static int GetScoreInStage(int stage)
+        {
+            return PlayerPrefs.GetInt("level" + stage + "Score", 0);
+        }
+
+        public static int GetStarsInStage(int stage)
+        {
+            return PlayerPrefs.GetInt("level" + stage + "Stars", 0);
         }
     }
 }

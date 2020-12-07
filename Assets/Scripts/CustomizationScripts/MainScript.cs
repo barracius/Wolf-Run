@@ -2,7 +2,6 @@
 using Helpers;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 namespace CustomizationScripts
 {
@@ -15,7 +14,7 @@ namespace CustomizationScripts
         
         public void OnGoBackButtonClick()
         {
-            SceneManager.LoadScene("MainMenu");
+            Methods.GoBackToMainMenu();
         }
         
         public void OnSkinClick()

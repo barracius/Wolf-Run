@@ -32,6 +32,11 @@ namespace MainMenuScripts
             SceneManager.LoadScene("LevelSelection");
         }
 
+        public void OnSettingsButtonClick()
+        {
+            SceneManager.LoadScene("Settings");
+        }
+
         public void ResetAllScoresButtonPressed()
         {
             PlayerPrefs.DeleteAll();
@@ -59,6 +64,12 @@ namespace MainMenuScripts
                 PlayerPrefs.SetInt("level2Score", 30000);
                 PlayerPrefs.SetInt("level2Stars", 3);
                 Debug.Log("Cheat 2 Activated");
+            }
+            else if (Input.GetKey(KeyCode.Alpha3))
+            {
+                PlayerPrefs.SetInt("level3Score", 30000);
+                PlayerPrefs.SetInt("level3Stars", 3);
+                Debug.Log("Cheat 3 Activated");
             }
         }
     }

@@ -9,7 +9,7 @@ namespace LevelSelectorScripts
     {
         public void GoBackButtonPressed()
         {
-            SceneManager.LoadScene("MainMenu");
+            Methods.GoBackToMainMenu();
         }
 
         private void Update()

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Helpers;
 
 namespace LevelSelectorScripts
 {
@@ -37,7 +38,7 @@ namespace LevelSelectorScripts
                 _locked.gameObject.SetActive(false);
                 _unlocked.gameObject.SetActive(true);
                 CalculateLevelStars();
-                _highScoreText.text = "High Score: " + PlayerPrefs.GetInt("level" + numberOfStage + "Score", 0);
+                _highScoreText.text = "High Score: " + Methods.GetScoreInStage(numberOfStage);
                 _isLocked = false;
             }
             else
@@ -49,7 +50,7 @@ namespace LevelSelectorScripts
 
         private void CalculateLevelStars()
         {
-            _stars = PlayerPrefs.GetInt("level" + numberOfStage + "Stars", 0);
+            _stars = Methods.GetStarsInStage(numberOfStage);
             switch (_stars)
             {
                 case 1:
@@ -86,7 +87,7 @@ namespace LevelSelectorScripts
         private bool CheckIfUnlocked()
         {
             if (numberOfStage == 1) return true;
-            _prevStageStars = PlayerPrefs.GetInt("level" + (numberOfStage - 1) + "Stars", 0);
+            _prevStageStars = Methods.GetStarsInStage(numberOfStage - 1);
             return _prevStageStars != 0;
         }
 
