@@ -40,4 +40,10 @@
         SecretStage
     }
 
+    public enum MuteSetting
+    {
+        Muted,
+        Unmuted
+    }
+
 }
