@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Helpers;
 using UnityEngine;
 
 namespace StageScripts.Wolfie.Bite
@@ -12,6 +13,7 @@ namespace StageScripts.Wolfie.Bite
         public float speed = 8f;
         private bool _isBiting;
         private MainController _wolfieMainController;
+        public event Action OnStopBiting;
 
         private void Start()
         {
@@ -23,7 +25,7 @@ namespace StageScripts.Wolfie.Bite
         {
             if (!other.tag.Contains("Bite")) return;
             var obstacleToDelete = other.gameObject;
-            GameControl.Instance.obstaclesInScene.RemoveAt(0);
+            MainScript.Instance.obstaclesInScene.RemoveAt(0);
             Destroy(obstacleToDelete);
         }
 
@@ -50,7 +52,7 @@ namespace StageScripts.Wolfie.Bite
             yield return Process ( r => _isBiting = r );
             if (!_isBiting)
             {
-                _wolfieMainController.IsBiting = false;
+                OnStopBiting?.Invoke();
             }
         }
 

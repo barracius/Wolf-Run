@@ -9,7 +9,7 @@ namespace StageScripts.Wolfie
         [SerializeField] private AudioClip biteSound = null;
         [SerializeField] private AudioClip jumpSound = null;
         [SerializeField] private AudioClip slideSound = null;
-        [SerializeField] private AudioClip clockSound = null;
+        //[SerializeField] private AudioClip clockSound = null;
         [SerializeField] private AudioClip shieldSound = null;
         [SerializeField] private AudioClip lossSound = null;
         [SerializeField] private AudioClip bittenTreeSound = null;

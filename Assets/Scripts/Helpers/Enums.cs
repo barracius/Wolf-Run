@@ -23,19 +23,33 @@
     public enum SkinType
     {
         Wolfie,
-        Background
+        Background,
+        SecretStage
     }
 
-    public enum GobalVariables
+    public enum GlobalVariables
     {
-        NumberOfStages = 2
+        NumberOfStages = 3
     }
 
     public enum TypeOfAchievement
     {
         ScoreInStage,
         StageCompletion,
-        TotalStars
+        TotalStars,
+        SecretStage
+    }
+
+    public enum MuteSetting
+    {
+        Muted,
+        UnMuted
+    }
+
+    public enum TypeOfStage
+    {
+        Normal,
+        Secret
     }
 
 }

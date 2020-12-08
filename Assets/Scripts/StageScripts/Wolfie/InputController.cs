@@ -1,27 +1,49 @@
-﻿using Helpers;
+﻿using System;
+using Helpers;
+using UnityEditor;
 using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
     public class InputController : MonoBehaviour
     {
-        [SerializeField] private MainController mainController = null;
+        public event Action OnJumpInputPressed;
+        public event Action OnSlideInputPressed;
+        public event Action OnBiteInputPressed;
+
+        private bool _onPause = true;
 
         private void Update()
         {
-            if (GameControl.GameStopped || mainController.wolfieState != WolfieState.Running) return;
+            if (_onPause) return;
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                mainController.wolfieState = WolfieState.Biting;
+                OnBiteInputPressed?.Invoke();
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                mainController.wolfieState = WolfieState.Jumping;
+                OnJumpInputPressed?.Invoke();
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                mainController.wolfieState = WolfieState.Sliding;
+                OnSlideInputPressed?.Invoke();
             }
+        }
+
+        private void Start()
+        {
+            MainScript.Instance.PauseEvent += Pause;
+            MainScript.Instance.UnpauseEvent += Unpause;
+        }
+
+        private void Pause()
+        {
+            _onPause = true;
+        }
+
+        private void Unpause()
+        {
+            _onPause = false;
         }
     }
 }

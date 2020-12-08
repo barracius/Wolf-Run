@@ -1,57 +1,46 @@
-﻿using Helpers;
+﻿using System;
+using Helpers;
 using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
     public class CollisionController : MonoBehaviour
     {
-        [SerializeField] private MainController mainController = null;
+        public event Action OnObstacleHit;
+        public event Action OnJumpLanding;
+        public event Action OnClockPowerUpCollected;
+        public event Action OnShieldPowerUpCollected;
+        public event Action OnFireTouched;
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Fire"))
             {
-                mainController.wolfieState = WolfieState.OnFire;
+                OnFireTouched?.Invoke();
             }
 
             if (other.gameObject.tag.Contains("Obstacle"))
             {
                 Destroy(other.gameObject);
-                if (mainController.ShieldCharges > 0)
-                {
-                    mainController.ShieldCharges -= 1;
-                    GameControl.Instance.UpdateShieldPowerUpState(mainController.ShieldCharges);
-                    GameControl.Instance.obstaclesInScene.RemoveAt(0);
-                }
-                else
-                {
-                    if(mainController.IsSliding || mainController.IsBiting || mainController.IsJumping) mainController.StopAllCoroutines(); 
-                    mainController.wolfieState = WolfieState.Stunned;
-                }
+                OnObstacleHit?.Invoke();
             }
 
             if (other.gameObject.CompareTag("Ground"))
             {
-                mainController.IsJumping = false;
+                OnJumpLanding?.Invoke();
             }
 
             if (other.gameObject.tag.Contains("PowerUp"))
             {
-                GameControl.Instance.obstaclesInScene.RemoveAt(0);
+                Destroy(other.gameObject);
+                MainScript.Instance.obstaclesInScene.RemoveAt(0);
                 if (other.gameObject.tag.Contains("Clock"))
                 {
-                    StartCoroutine(GameControl.Instance.ClockPowerUpActivate());
+                    OnClockPowerUpCollected?.Invoke();
                 }
                 else if (other.gameObject.tag.Contains("Shield"))
                 {
-                    if (mainController.ShieldCharges == 3)
-                    {
-                        Destroy(other.gameObject);
-                        return;
-                    }
-                    mainController.ShieldCharges += 1;
-                    GameControl.Instance.UpdateShieldPowerUpState(mainController.ShieldCharges);
+                    OnShieldPowerUpCollected?.Invoke();
                 }
-                Destroy(other.gameObject);
             }
         }
     }

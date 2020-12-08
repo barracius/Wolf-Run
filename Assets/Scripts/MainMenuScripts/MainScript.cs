@@ -9,11 +9,9 @@ namespace MainMenuScripts
 {
     public class MainScript : MonoBehaviour
     {
-        [SerializeField] private GameObject background = null;
 
         private void Start()
         {
-            background.GetComponent<BackgroundImageScript>().SetBackground();
             Methods.PlayMainMenuMusic();
         }
 
@@ -30,6 +28,11 @@ namespace MainMenuScripts
         public void OnLevelSelectorButtonClick()
         {
             SceneManager.LoadScene("LevelSelection");
+        }
+
+        public void OnSettingsButtonClick()
+        {
+            SceneManager.LoadScene("Settings");
         }
 
         public void ResetAllScoresButtonPressed()
@@ -59,6 +62,12 @@ namespace MainMenuScripts
                 PlayerPrefs.SetInt("level2Score", 30000);
                 PlayerPrefs.SetInt("level2Stars", 3);
                 Debug.Log("Cheat 2 Activated");
+            }
+            else if (Input.GetKey(KeyCode.Alpha3))
+            {
+                PlayerPrefs.SetInt("level3Score", 30000);
+                PlayerPrefs.SetInt("level3Stars", 3);
+                Debug.Log("Cheat 3 Activated");
             }
         }
     }

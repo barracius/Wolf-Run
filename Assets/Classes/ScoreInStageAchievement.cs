@@ -16,7 +16,7 @@ namespace Classes
 
         public override bool CheckCondition()
         {
-            _currentScore = PlayerPrefs.GetInt("level" + _numberOfStage + "Score",0);
+            _currentScore = Helpers.Methods.GetScoreInStage(_numberOfStage);
             if (_currentScore >= _targetScore)
             {
                 Done = true;

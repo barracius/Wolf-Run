@@ -1,6 +1,5 @@
 ﻿using Helpers;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace AchievementsScripts
 {
@@ -8,7 +7,7 @@ namespace AchievementsScripts
     {
         public void OnGoBackButtonClick()
         {
-            SceneManager.LoadScene("MainMenu");
+            Methods.GoBackToMainMenu();
         }
         
         private void Update()

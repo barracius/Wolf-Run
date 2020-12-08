@@ -4,8 +4,8 @@ namespace StageScripts.Wolfie
 {
     public class PhysicsController : MonoBehaviour
     {
-        [SerializeField] private float jumpHeight = 650; 
-        private const int MovementSpeed = 5;
+        private const float JumpHeight = 750f; 
+        private const float MovementSpeed = 400f;
         public Rigidbody2D rb;
 
         private void Start()
@@ -15,7 +15,7 @@ namespace StageScripts.Wolfie
 
         internal void GetStunned()
         {
-            transform.Translate(MovementSpeed * Time.deltaTime * Vector3.left);
+            rb.AddForce(Vector2.left * MovementSpeed);
         }
 
         internal void SlideEnd()
@@ -29,7 +29,7 @@ namespace StageScripts.Wolfie
         }
         internal void Jump()
         {
-            rb.AddForce(Vector2.up * jumpHeight);
+            rb.AddForce(Vector2.up * JumpHeight);
         }
     }
 }
