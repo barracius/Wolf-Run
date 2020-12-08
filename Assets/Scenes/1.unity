@@ -3509,7 +3509,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 13.59, y: 9.14}
+    oldSize: {x: 14.09, y: 11.78}
     newSize: {x: 4.4, y: 4.7}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -3557,7 +3557,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 00c050bc4b9f2cd47a5744c1ecd999e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c91f3a2a2c96e454c9d25ed9663c08f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3576,7 +3576,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362592389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.58, y: -2.3, z: 0}
+  m_LocalPosition: {x: -4.3, y: -2.33, z: 0}
   m_LocalScale: {x: 0.33, y: 0.33, z: 0}
   m_Children:
   - {fileID: 1945023398}
@@ -4205,9 +4205,7 @@ MonoBehaviour:
   - {fileID: 7650916364400532982, guid: d55cab08ca5569b4ca92e3d276e1b221, type: 3}
   - {fileID: 4995264051849537155, guid: 4683b480c7916b94fbae33e828d684ce, type: 3}
   - {fileID: 1120684104306324642, guid: 535bcb58f159294488fb6f89e3eafa2c, type: 3}
-  powerUps:
-  - {fileID: 1986673518749474936, guid: 8f563170b545e1f4ca0227a163781e35, type: 3}
-  - {fileID: 9201487090875609588, guid: 45b9ed6c554771b41bd4c9c89de5333c, type: 3}
+  powerUps: []
   spawnPoint: {fileID: 553867735}
   spawnRate: 2
   timeToBoost: 5
@@ -4219,7 +4217,7 @@ MonoBehaviour:
   wolfieSprites:
   - {fileID: 21300000, guid: 35b9f52ae01f3be47bd93fb30b62119c, type: 3}
   - {fileID: 21300000, guid: 071b9e906ed81bf45bc4c1c239d48abe, type: 3}
-  - {fileID: 21300000, guid: 00c050bc4b9f2cd47a5744c1ecd999e2, type: 3}
+  - {fileID: 21300000, guid: c91f3a2a2c96e454c9d25ed9663c08f4, type: 3}
   obstaclesInScene: []
   numberOfStage: 1
 --- !u!4 &1531586194

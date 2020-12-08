@@ -14,7 +14,8 @@ namespace StageScripts
     {
         public static MainScript Instance;
         [SerializeField] private Canvas canvas = null;
-        [SerializeField] private GameObject[] obstacles = null, powerUps = null;
+        [SerializeField] private GameObject[] obstacles = null; 
+//        [SerializeField] private GameObject[] powerUps = null;
         [SerializeField] private Transform spawnPoint = null;
         [SerializeField] private float spawnRate = 2f;
         [SerializeField] private float timeToBoost = 5f;
@@ -156,20 +157,23 @@ namespace StageScripts
         {
             _nextSpawn = Time.time + spawnRate;
             if (obstaclesInScene.Count != 0) return;
-            var obstacleOrPowerUp = Random.Range(0, 20);
-            int obstacleToSpawn;
-            if (obstacleOrPowerUp == 0)
-            {
-                obstacleToSpawn = Random.Range(0, powerUps.Length);
-                var obstacle = powerUps[obstacleToSpawn];
-                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
-            }
-            else
-            {
-                obstacleToSpawn = Random.Range(0, obstacles.Length);
+//            var obstacleOrPowerUp = Random.Range(0, 20);
+//            int obstacleToSpawn;
+//            if (obstacleOrPowerUp == 0)
+//            {
+//                obstacleToSpawn = Random.Range(0, powerUps.Length);
+//                var obstacle = powerUps[obstacleToSpawn];
+//                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+//            }
+//            else
+//            {
+//                obstacleToSpawn = Random.Range(0, obstacles.Length);
+//                var obstacle = obstacles[obstacleToSpawn];
+//                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+//            }
+                var obstacleToSpawn = Random.Range(0, obstacles.Length);
                 var obstacle = obstacles[obstacleToSpawn];
                 obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
-            }
         }
 
         private void BoostTime()
