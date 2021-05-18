@@ -18,6 +18,7 @@ namespace StageScripts.Wolfie
         private int _shieldCharges = 0;
         private GameObject _biteGameObject;
         private BiteScript _biteScript;
+        private Animator _animator;
 
         private void SubscribeToEvents()
         {
@@ -36,11 +37,13 @@ namespace StageScripts.Wolfie
 
         private void Jump()
         {
+            if (_isJumping || _isSliding || _isBiting) return;
+            _animator.SetTrigger("takeOff");
             wolfieState = WolfieState.Jumping;
-            if (_isJumping || _isSliding || _isBiting) return; 
             physicsController.Jump();
             audioController.PlaySound(Sounds.JumpSound);
             _isJumping = true;
+            _animator.SetBool("isJumping", true);
         }
 
         private void Start()
@@ -54,23 +57,28 @@ namespace StageScripts.Wolfie
             _biteScript = _biteGameObject.GetComponent<BiteScript>();
             _biteGameObject.SetActive(false);
 
+            _animator = GetComponent<Animator>();
+            _animator.SetBool("isRunning", true);
             SubscribeToEvents();
         }
 
         private void Slide()
         {
-            wolfieState = WolfieState.Sliding;
             if (_isJumping || _isSliding || _isBiting) return;
+            _animator.SetTrigger("onBeginSlide");
+            wolfieState = WolfieState.Sliding;
             StartCoroutine(SlideEnumerator());
         }
         
         private IEnumerator SlideEnumerator()
         {
             _isSliding = true;
+            _animator.SetBool("isSliding",true);
             audioController.PlaySound(Sounds.SlideSound);
             physicsController.SlideBegin();
             yield return new WaitForSeconds(maxSlideTime);
             physicsController.SlideEnd();
+            _animator.SetBool("isSliding",false);
             wolfieState = WolfieState.Running;
             _isSliding = false;
         }
@@ -109,6 +117,7 @@ namespace StageScripts.Wolfie
         private void OnJumpLanding()
         {
             _isJumping = false;
+            _animator.SetBool("isJumping",false);
             wolfieState = WolfieState.Running;
         }
 
