@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 
 namespace Helpers
 {
-    public static class Methods
+    public static class 
+        
+        Methods
     {
         public static int CalculateTotalStars()
         {

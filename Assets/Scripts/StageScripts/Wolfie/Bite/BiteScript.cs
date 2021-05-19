@@ -7,7 +7,6 @@ namespace StageScripts.Wolfie.Bite
 {
     public class BiteScript : MonoBehaviour
     {
-        public float endXPosition = 11f;
         internal Vector2 StartPosition;
         private Vector2 _currentPosition;
         public float speed = 8f;
@@ -31,6 +30,7 @@ namespace StageScripts.Wolfie.Bite
 
         private IEnumerator BiteEnumerator(Action<bool> resultCB)
         {
+            var endXPosition = _currentPosition.x + 8f;
             while (endXPosition > _currentPosition.x)
             {
                 Transform transform1;
@@ -39,6 +39,7 @@ namespace StageScripts.Wolfie.Bite
                 yield return null;
             }
             gameObject.SetActive(false);
+            transform.position = StartPosition;
             _isBiting = false;
             resultCB?.Invoke( _isBiting );
         }
@@ -47,7 +48,7 @@ namespace StageScripts.Wolfie.Bite
         {
             _isBiting = true;
             gameObject.SetActive(true);
-            transform.position = StartPosition;
+            StartPosition = transform.position;
             _currentPosition = StartPosition;
             yield return Process ( r => _isBiting = r );
             if (!_isBiting)
