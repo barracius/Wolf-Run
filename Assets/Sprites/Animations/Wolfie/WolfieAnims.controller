@@ -92,19 +92,19 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7167847297867213052}
-    m_Position: {x: 290, y: -270, z: 0}
+    m_Position: {x: 280, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8637444758441083059}
-    m_Position: {x: 410, y: -160, z: 0}
+    m_Position: {x: 410, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9199148069461488248}
-    m_Position: {x: 100, y: -160, z: 0}
+    m_Position: {x: 30, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1588971587675219487}
-    m_Position: {x: -210, y: 130, z: 0}
+    m_Position: {x: -170, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6315411313508129910}
-    m_Position: {x: 10, y: 250, z: 0}
+    m_Position: {x: 40, y: 250, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 4428596420249036730}
@@ -232,31 +232,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: takeOff
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isRunning
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: onBeginSlide
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isSliding
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
