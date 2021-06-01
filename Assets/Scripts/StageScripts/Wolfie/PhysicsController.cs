@@ -1,16 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StageScripts.Wolfie
 {
     public class PhysicsController : MonoBehaviour
     {
-        private const float jumpHeight = 750f; 
-        private const float movementSpeed = 400f;
+        private const float jumpHeight = 750f;
         public Rigidbody2D rb;
         public BoxCollider2D boxCollider2D;
         public Transform fire;
-        private bool _stunned = false;
 
         private void Start()
         {
@@ -36,5 +33,6 @@ namespace StageScripts.Wolfie
         {
             rb.AddForce(Vector2.up * jumpHeight);
         }
+        
     }
 }

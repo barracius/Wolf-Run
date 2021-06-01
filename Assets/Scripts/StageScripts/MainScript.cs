@@ -12,24 +12,23 @@ namespace StageScripts
     [RequireComponent(typeof(SpriteRenderer))]
     public class MainScript : MonoBehaviour
     {
-        public static MainScript Instance;
-        [SerializeField] private Canvas canvas = null;
-        [SerializeField] private GameObject[] obstacles = null; 
-//        [SerializeField] private GameObject[] powerUps = null;
-        [SerializeField] private Transform spawnPoint = null;
+        public static MainScript instance;
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private GameObject[] obstacles; 
+        [SerializeField] private Transform spawnPoint;
         [SerializeField] private float spawnRate = 2f;
         [SerializeField] private float timeToBoost = 5f;
         [SerializeField] private int oneStarScore = 20;
         [SerializeField] private int twoStarScore = 50;
         [SerializeField] private int threeStarScore = 100;
         [SerializeField] private float clockPowerUpDuration = 20f;
-        [SerializeField] private Transform wolfie = null;
-        [SerializeField] private Sprite[] wolfieSprites = null;
+        [SerializeField] private Transform wolfie;
+        [SerializeField] private Sprite[] wolfieSprites;
 
-        private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _clockPowerUpTimePickedUp, _timeScalePrePowerUp, _clockPowerUpTimeLeft, _timeScalePrePause;
-        private bool _clockPowerUpActivated = false;
+        private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _timeScalePrePowerUp, _clockPowerUpTimeLeft, _timeScalePrePause;
+        private bool _clockPowerUpActivated;
         private int _highScore, _yourScore;
-        private GameObject _lossPanel, _startPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
+        private GameObject _lossPanel, _powerUpsPanel, _scorePanel, _oneStar1, _twoStar1, _twoStar2, _threeStar1, _threeStar2, _threeStar3;
         private Text _highScoreText, _yourScoreText, _shieldChargesText, _clockRemainingTimeText, _oneStarText, _twoStarText, _threeStarText;
         private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon, _targetOneStar, _targetTwoStar, _targetThreeStar, _objectivePanel;
         private Wolfie.MainController _wolfieMainController;
@@ -40,12 +39,14 @@ namespace StageScripts
         public List<GameObject> obstaclesInScene;
         public int numberOfStage;
 
+        public GameObject pauseButtonGO, startPanelGO;
+
         public event Action PauseEvent;
         public event Action UnpauseEvent;
 
 
 
-        private void Start()
+        private void Awake()
         {
             Methods.DontPlayMainMenuMusic();
             Assignations();
@@ -57,7 +58,6 @@ namespace StageScripts
         {
             //Assign panels
             _lossPanel = canvas.transform.Find("LossPanel").gameObject;
-            _startPanel = canvas.transform.Find("StartPanel").gameObject;
             _powerUpsPanel = canvas.transform.Find("PowerUpsPanel").gameObject;
             _scorePanel = canvas.transform.Find("ScorePanel").gameObject;
 
@@ -101,8 +101,8 @@ namespace StageScripts
             _clockIcon = _powerUpsPanel.transform.Find("ClockIcon");
             _clockRemainingTimeText = _clockIcon.Find("ClockRemainingTimeText").GetComponent<Text>();
 
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(gameObject);
+            if (instance == null) instance = this;
+            else if (instance != this) Destroy(gameObject);
             _lossPanel.SetActive(false);
             _shieldIcon.gameObject.SetActive(false);
             _clockIcon.gameObject.SetActive(false);
@@ -149,6 +149,7 @@ namespace StageScripts
             AdjustTotalStars();
             Time.timeScale = 0;
             Pause();
+            pauseButtonGO.SetActive(false);
             _lossPanel.SetActive(true);
             ShowCurrentStars();
         }
@@ -251,8 +252,12 @@ namespace StageScripts
         public void OnStartButtonPressed()
         {
             Unpause();
-            Time.timeScale = 1f;
-            _startPanel.SetActive(false);
+            if (!_gameStopped)
+            {
+                Time.timeScale = 1f;
+
+            }
+            pauseButtonGO.SetActive(true);
         }
 
         internal void UpdateShieldPowerUpState(int shieldCharges)
@@ -261,24 +266,24 @@ namespace StageScripts
             {
                 case 0:
                     _shieldIcon.gameObject.SetActive(false);
-                    _wolfieMainController.Barrier.SetActive(false);
+                    _wolfieMainController.barrier.SetActive(false);
                     break;
                 case 1:
                     _shieldIcon.gameObject.SetActive(true);
-                    Color whiteBizarre = new Color(1,1,1, 0.5f);
-                    _wolfieMainController.Barrier.SetActive(true);
-                    _wolfieMainController.SrBarrier.color = whiteBizarre;
+                    _wolfieMainController.barrier.SetActive(true);
                     _shieldChargesText.text = "1";
+                    // Color whiteBizarre = new Color(1,1,1, 0.5f);
+                    // _wolfieMainController.SrBarrier.color = whiteBizarre;
                     break;
                 case 2:
                     _shieldChargesText.text = "2";
-                    Color redBizarre = new Color(1,1,1, 0.7f);
-                    _wolfieMainController.SrBarrier.color = redBizarre;
+                    // Color redBizarre = new Color(1,1,1, 0.7f);
+                    // _wolfieMainController.SrBarrier.color = redBizarre;
                     break;
                 case 3:
                     _shieldChargesText.text = "3";
-                    Color purpleBizarre = new Color(1,1,1, 0.9f);
-                    _wolfieMainController.SrBarrier.color = purpleBizarre;
+                    // Color purpleBizarre = new Color(1,1,1, 0.9f);
+                    // _wolfieMainController.SrBarrier.color = purpleBizarre;
                     break;
             }
         }
@@ -315,6 +320,13 @@ namespace StageScripts
                 _clockIcon.gameObject.SetActive(false);
                 _clockPowerUpActivated = false;
             }
+        }
+
+        public void OnPauseButtonPress()
+        {
+            Pause();
+            pauseButtonGO.SetActive(false);
+            startPanelGO.SetActive(true);
         }
 
         private void Pause()

@@ -1,5 +1,4 @@
 ﻿using System;
-using Helpers;
 using UnityEngine;
 
 namespace StageScripts.Wolfie
@@ -32,7 +31,7 @@ namespace StageScripts.Wolfie
             if (other.gameObject.tag.Contains("PowerUp"))
             {
                 Destroy(other.gameObject);
-                MainScript.Instance.obstaclesInScene.RemoveAt(0);
+                MainScript.instance.obstaclesInScene.RemoveAt(0);
                 if (other.gameObject.tag.Contains("Clock"))
                 {
                     OnClockPowerUpCollected?.Invoke();

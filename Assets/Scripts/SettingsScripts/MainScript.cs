@@ -9,9 +9,13 @@ namespace SettingsScripts
         public GameObject muteButton;
         public GameObject unMuteButton;
         private MuteSetting _muteSetting;
+        public bool isInGameSetting;
         private void Start()
         {
-            Methods.PlayMainMenuMusic();
+            if (!isInGameSetting)
+            {
+                Methods.PlayMainMenuMusic();
+            }
 
             _muteSetting = PlayerPrefs.GetInt("Muted", 0) == 0 ? MuteSetting.UnMuted : MuteSetting.Muted;
 
@@ -37,8 +41,11 @@ namespace SettingsScripts
 
         private void Update()
         {
-            Methods.CheckInputAndGoBackToMainMenu();
-            Methods.CheckInputAndCloseGame();
+            if (!isInGameSetting)
+            {
+                Methods.CheckInputAndGoBackToMainMenu();
+                Methods.CheckInputAndCloseGame();
+            }
         }
         
         public void MuteAllSound()

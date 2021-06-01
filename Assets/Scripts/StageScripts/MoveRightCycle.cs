@@ -7,7 +7,7 @@ namespace StageScripts
         [SerializeField] private float moveSpeed = 3;
 
         [SerializeField] private float leftWayPointX = 13, rightWayPointX = -13;
-        private bool _onPause = false;
+        private bool _onPause;
     
         private void FixedUpdate()
         {
@@ -23,8 +23,8 @@ namespace StageScripts
         
         private void Start()
         {
-            MainScript.Instance.PauseEvent += Pause;
-            MainScript.Instance.UnpauseEvent += Unpause;
+            MainScript.instance.PauseEvent += Pause;
+            MainScript.instance.UnpauseEvent += Unpause;
         }
 
         private void Pause()

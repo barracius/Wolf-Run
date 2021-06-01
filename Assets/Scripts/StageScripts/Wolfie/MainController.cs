@@ -3,23 +3,32 @@ using System.Collections;
 using Helpers;
 using StageScripts.Wolfie.Bite;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StageScripts.Wolfie
 {
     public class MainController : MonoBehaviour
     {
-        [SerializeField] internal AudioController audioController = null;
-        [SerializeField] internal PhysicsController physicsController = null;
+        [SerializeField] internal AudioController audioController;
+        [SerializeField] internal PhysicsController physicsController;
         [SerializeField] internal float maxSlideTime = 1.5f;
-        internal GameObject Barrier;
-        internal SpriteRenderer SrBarrier;
+        internal GameObject barrier;
         [SerializeField] internal WolfieState wolfieState = WolfieState.Running;
-        private bool _isJumping = false, _isBiting = false, _isSliding = false;
-        private int _shieldCharges = 0;
+        private bool _isJumping, _isBiting, _isSliding;
+        private int _shieldCharges;
         [SerializeField] private GameObject biteGameObject;
         private BiteScript _biteScript;
         private Animator _animator;
+        public Transform wolfieShadow;
+        public Vector3 shadowRunningScale = new Vector3(5,1,1);
+        public Vector3 shadowJumpingScale = new Vector3(3,1,1);
+        public Vector3 shadowSlidingScale = new Vector3(6,1,1);
+        private static readonly int isSliding = Animator.StringToHash("isSliding");
+        private static readonly int takeOff = Animator.StringToHash("takeOff");
+        private static readonly int isJumping = Animator.StringToHash("isJumping");
+        private static readonly int isRunning = Animator.StringToHash("isRunning");
+        private static readonly int onBeginSlide = Animator.StringToHash("onBeginSlide");
+        public event Action OnEndSliding;
+
 
         private void SubscribeToEvents()
         {
@@ -34,53 +43,62 @@ namespace StageScripts.Wolfie
             collisionController.OnFireTouched += OnFire;
             collisionController.OnClockPowerUpCollected += OnClockPowerUpCollected;
             _biteScript.OnStopBiting += OnStopBiting;
+            OnEndSliding += OnSlideEnd;
+        }
+
+        private void OnSlideEnd()
+        {
+            physicsController.SlideEnd();
+            _animator.SetBool(isSliding,false);
+            wolfieState = WolfieState.Running;
+            wolfieShadow.localScale = shadowRunningScale;
+            _isSliding = false;
         }
 
         private void Jump()
         {
             if (_isJumping || _isSliding || _isBiting) return;
-            _animator.SetTrigger("takeOff");
+            _animator.SetTrigger(takeOff);
             wolfieState = WolfieState.Jumping;
+            wolfieShadow.localScale = shadowJumpingScale;
             physicsController.Jump();
             audioController.PlaySound(Sounds.JumpSound);
             _isJumping = true;
-            _animator.SetBool("isJumping", true);
+            _animator.SetBool(isJumping, true);
         }
 
         private void Start()
         {
             
-            Barrier = transform.Find("Barrier").gameObject;
-            SrBarrier = Barrier.GetComponent<SpriteRenderer>();
-            Barrier.SetActive(false);
+            barrier = transform.Find("Barrier").gameObject;
+            barrier.SetActive(false);
             
             _biteScript = biteGameObject.GetComponent<BiteScript>();
             biteGameObject.SetActive(false);
 
             _animator = GetComponent<Animator>();
-            _animator.SetBool("isRunning", true);
+            _animator.SetBool(isRunning, true);
             SubscribeToEvents();
         }
 
         private void Slide()
         {
             if (_isJumping || _isSliding || _isBiting) return;
-            _animator.SetTrigger("onBeginSlide");
+            _animator.SetTrigger(onBeginSlide);
             wolfieState = WolfieState.Sliding;
+            wolfieShadow.localScale = shadowSlidingScale;
             StartCoroutine(SlideEnumerator());
         }
         
         private IEnumerator SlideEnumerator()
         {
             _isSliding = true;
-            _animator.SetBool("isSliding",true);
+            _animator.SetBool(isSliding,true);
             audioController.PlaySound(Sounds.SlideSound);
             physicsController.SlideBegin();
+            wolfieShadow.localScale = shadowSlidingScale;
             yield return new WaitForSeconds(maxSlideTime);
-            physicsController.SlideEnd();
-            _animator.SetBool("isSliding",false);
-            wolfieState = WolfieState.Running;
-            _isSliding = false;
+            OnEndSliding?.Invoke();
         }
 
         private void Bite()
@@ -103,8 +121,8 @@ namespace StageScripts.Wolfie
             if (_shieldCharges > 0)
             {
                 _shieldCharges -= 1;
-                MainScript.Instance.UpdateShieldPowerUpState(_shieldCharges);
-                MainScript.Instance.obstaclesInScene.RemoveAt(0);
+                MainScript.instance.UpdateShieldPowerUpState(_shieldCharges);
+                MainScript.instance.obstaclesInScene.RemoveAt(0);
             }
             else
             {
@@ -116,8 +134,13 @@ namespace StageScripts.Wolfie
 
         private void OnJumpLanding()
         {
+            if (_isJumping == false)
+            {
+                return;
+            }
             _isJumping = false;
-            _animator.SetBool("isJumping",false);
+            _animator.SetBool(isJumping,false);
+            wolfieShadow.localScale = shadowRunningScale;
             wolfieState = WolfieState.Running;
         }
 
@@ -128,18 +151,19 @@ namespace StageScripts.Wolfie
                 return;
             }
             _shieldCharges += 1;
-            MainScript.Instance.UpdateShieldPowerUpState(_shieldCharges);
+            MainScript.instance.UpdateShieldPowerUpState(_shieldCharges);
         }
 
         private void OnClockPowerUpCollected()
         {
-            StartCoroutine(MainScript.Instance.ClockPowerUpActivate());
+            StartCoroutine(MainScript.instance.ClockPowerUpActivate());
         }
 
         private void OnFire()
         {
             wolfieState = WolfieState.OnFire;
-            MainScript.Instance.GameOver();
+            wolfieShadow.gameObject.SetActive(false);
+            MainScript.instance.GameOver();
             audioController.PlaySound(Sounds.LossGameSound);
         }
     }

@@ -24,7 +24,7 @@ namespace StageScripts.Wolfie.Bite
         {
             if (!other.tag.Contains("Bite")) return;
             var obstacleToDelete = other.gameObject;
-            MainScript.Instance.obstaclesInScene.RemoveAt(0);
+            MainScript.instance.obstaclesInScene.RemoveAt(0);
             Destroy(obstacleToDelete);
         }
 

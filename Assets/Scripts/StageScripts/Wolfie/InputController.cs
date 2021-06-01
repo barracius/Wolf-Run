@@ -1,6 +1,4 @@
 ﻿using System;
-using Helpers;
-using UnityEditor;
 using UnityEngine;
 
 namespace StageScripts.Wolfie
@@ -28,11 +26,16 @@ namespace StageScripts.Wolfie
             {
                 OnSlideInputPressed?.Invoke();
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                MainScript.instance.OnPauseButtonPress();
+            }
         }
 
         private void Start()
-        {            MainScript.Instance.PauseEvent += Pause;
-            MainScript.Instance.UnpauseEvent += Unpause;
+        {            MainScript.instance.PauseEvent += Pause;
+            MainScript.instance.UnpauseEvent += Unpause;
         }
 
         private void Pause()

@@ -18,8 +18,8 @@ namespace StageScripts.Chippy
         private void Start()
         {
             _powerUpSpawner = transform.Find("PowerUpSpawner");
-            MainScript.Instance.PauseEvent += Pause;
-            MainScript.Instance.UnpauseEvent += Unpause;
+            MainScript.instance.PauseEvent += Pause;
+            MainScript.instance.UnpauseEvent += Unpause;
         }
 
         private void Update()
@@ -42,7 +42,7 @@ namespace StageScripts.Chippy
         private void TossPowerUp()
         {
             var powerUp = Random.Range(0, powerUps.Length);
-            MainScript.Instance.obstaclesInScene.Add(Instantiate(powerUps[powerUp], _powerUpSpawner.position, Quaternion.identity));
+            MainScript.instance.obstaclesInScene.Add(Instantiate(powerUps[powerUp], _powerUpSpawner.position, Quaternion.identity));
         }
 
         private void Pause()

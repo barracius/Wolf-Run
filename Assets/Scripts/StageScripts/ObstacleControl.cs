@@ -1,12 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StageScripts
 {
     public class ObstacleControl : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = -5f;
-        private bool _onPause = false;
+        private bool _onPause;
 
         private void Update()
         {
@@ -21,13 +20,13 @@ namespace StageScripts
         {
             if (!other.transform.CompareTag("Fire")) return;
             Destroy(gameObject); 
-            MainScript.Instance.obstaclesInScene.RemoveAt(0);
+            MainScript.instance.obstaclesInScene.RemoveAt(0);
         }
 
         private void Start()
         {
-            MainScript.Instance.PauseEvent += Pause;
-            MainScript.Instance.UnpauseEvent += Unpause;
+            MainScript.instance.PauseEvent += Pause;
+            MainScript.instance.UnpauseEvent += Unpause;
         }
 
         private void Pause()
