@@ -34,7 +34,8 @@ namespace StageScripts.Wolfie
         }
 
         private void Start()
-        {            MainScript.instance.PauseEvent += Pause;
+        {            
+            MainScript.instance.PauseEvent += Pause;
             MainScript.instance.UnpauseEvent += Unpause;
         }
 
