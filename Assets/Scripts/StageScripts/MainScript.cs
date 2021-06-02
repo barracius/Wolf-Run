@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Helpers;
 using UnityEngine;
+using UnityEngine.Experimental.U2D.Animation;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -23,7 +24,6 @@ namespace StageScripts
         [SerializeField] private int threeStarScore = 100;
         [SerializeField] private float clockPowerUpDuration = 20f;
         [SerializeField] private Transform wolfie;
-        [SerializeField] private Sprite[] wolfieSprites;
 
         private float _nextBoost, _nextScoreIncrease,  _nextSpawn, _timeScalePrePowerUp, _clockPowerUpTimeLeft, _timeScalePrePause;
         private bool _clockPowerUpActivated;
@@ -32,7 +32,6 @@ namespace StageScripts
         private Text _highScoreText, _yourScoreText, _shieldChargesText, _clockRemainingTimeText, _oneStarText, _twoStarText, _threeStarText;
         private Transform _achievedLeftStar, _achievedMidStar, _achievedRightStar, _shieldIcon, _clockIcon, _targetOneStar, _targetTwoStar, _targetThreeStar, _objectivePanel;
         private Wolfie.MainController _wolfieMainController;
-        private SpriteRenderer _wolfieSpriteRenderer;
 
         private bool _gameStopped;
     
@@ -43,6 +42,15 @@ namespace StageScripts
 
         public event Action PauseEvent;
         public event Action UnpauseEvent;
+
+        public GameObject wolfieTorso;
+        public GameObject wolfieBackLeftLeg;
+        public GameObject wolfieBackRightLeg;
+        public GameObject wolfieFrontLeftLeg;
+        public GameObject wolfieFrontRightLeg;
+        public GameObject wolfieNeck;
+        public GameObject wolfieHead;
+        public GameObject wolfieTail;
 
 
 
@@ -113,7 +121,6 @@ namespace StageScripts
 
             //Assign wolfies values
             _wolfieMainController = wolfie.GetComponent<Wolfie.MainController>();
-            _wolfieSpriteRenderer = wolfie.GetComponent<SpriteRenderer>();
         }
 
         private void Update()
@@ -158,23 +165,9 @@ namespace StageScripts
         {
             _nextSpawn = Time.time + spawnRate;
             if (obstaclesInScene.Count != 0) return;
-//            var obstacleOrPowerUp = Random.Range(0, 20);
-//            int obstacleToSpawn;
-//            if (obstacleOrPowerUp == 0)
-//            {
-//                obstacleToSpawn = Random.Range(0, powerUps.Length);
-//                var obstacle = powerUps[obstacleToSpawn];
-//                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
-//            }
-//            else
-//            {
-//                obstacleToSpawn = Random.Range(0, obstacles.Length);
-//                var obstacle = obstacles[obstacleToSpawn];
-//                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
-//            }
-                var obstacleToSpawn = Random.Range(0, obstacles.Length);
-                var obstacle = obstacles[obstacleToSpawn];
-                obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
+            var obstacleToSpawn = Random.Range(0, obstacles.Length);
+            var obstacle = obstacles[obstacleToSpawn];
+            obstaclesInScene.Add(Instantiate(obstacle, spawnPoint.position, Quaternion.identity));
         }
 
         private void BoostTime()
@@ -292,9 +285,52 @@ namespace StageScripts
         {
             //Get current skins through player prefs
             int wolfBody = PlayerPrefs.GetInt("Wolf Body Skin", 0);
-        
-            //Set current skins
-            _wolfieSpriteRenderer.sprite = wolfieSprites[wolfBody];
+
+            var wolfieTorsoSR = wolfieTorso.GetComponent<SpriteResolver>();
+            var wolfieNeckSR = wolfieNeck.GetComponent<SpriteResolver>();
+            var wolfieTailSR = wolfieTail.GetComponent<SpriteResolver>();
+            var wolfieHeadSR = wolfieHead.GetComponent<SpriteResolver>();
+            var wolfieBackRightLegSR = wolfieBackRightLeg.GetComponent<SpriteResolver>();
+            var wolfieBackLeftLegSR = wolfieBackLeftLeg.GetComponent<SpriteResolver>();
+            var wolfieFrontRightLegSR = wolfieFrontRightLeg.GetComponent<SpriteResolver>();
+            var wolfieFrontLeftLegSR = wolfieFrontLeftLeg.GetComponent<SpriteResolver>();
+            switch (wolfBody)
+            {
+                case 0:
+                    wolfieTorsoSR.SetCategoryAndLabel("Torso", "Torso-Normal");
+                    wolfieNeckSR.SetCategoryAndLabel("Neck", "Neck-Normal");
+                    wolfieTailSR.SetCategoryAndLabel("Tail", "Tail-Normal");
+                    wolfieHeadSR.SetCategoryAndLabel("Head", "Head-Normal");
+                    wolfieBackRightLegSR.SetCategoryAndLabel("B-R-Foot", "B-R-Normal");
+                    wolfieBackLeftLegSR.SetCategoryAndLabel("B-L-Foot", "B-L-Normal");
+                    wolfieFrontRightLegSR.SetCategoryAndLabel("F-R-Foot","F-R-Normal");
+                    wolfieFrontLeftLegSR.SetCategoryAndLabel("F-L-Foot","F-L-Normal");
+                    break;
+                case 1:
+                    wolfieTorsoSR.SetCategoryAndLabel("Torso", "Torso-Blue");
+                    wolfieNeckSR.SetCategoryAndLabel("Neck", "Neck-Blue");
+                    wolfieTailSR.SetCategoryAndLabel("Tail", "Tail-Blue");
+                    wolfieHeadSR.SetCategoryAndLabel("Head", "Head-Blue");
+                    wolfieBackRightLegSR.SetCategoryAndLabel("B-R-Foot", "B-R-Blue");
+                    wolfieBackLeftLegSR.SetCategoryAndLabel("B-L-Foot", "B-L-Blue");
+                    wolfieFrontRightLegSR.SetCategoryAndLabel("F-R-Foot","F-R-Blue");
+                    wolfieFrontLeftLegSR.SetCategoryAndLabel("F-L-Foot","F-L-Blue");
+                    break;
+                case 2:
+                    wolfieTorsoSR.SetCategoryAndLabel("Torso", "Torso-Green");
+                    wolfieNeckSR.SetCategoryAndLabel("Neck", "Neck-Green");
+                    wolfieTailSR.SetCategoryAndLabel("Tail", "Tail-Green");
+                    wolfieHeadSR.SetCategoryAndLabel("Head", "Head-Green");
+                    wolfieBackRightLegSR.SetCategoryAndLabel("B-R-Foot", "B-R-Green");
+                    wolfieBackLeftLegSR.SetCategoryAndLabel("B-L-Foot", "B-L-Green");
+                    wolfieFrontRightLegSR.SetCategoryAndLabel("F-R-Foot","F-R-Green");
+                    wolfieFrontLeftLegSR.SetCategoryAndLabel("F-L-Foot","F-L-Green");
+                    break;
+                default:
+                    Debug.Log("Skin not set correctly, make sure the Player pref 'Wolf Body Skin' is well set.");
+                    break;
+            }
+            
         }
         
         //CoRoutine that handles when Wolfie grabs Clock Power Up.

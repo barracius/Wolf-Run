@@ -1,8 +1,5 @@
-﻿using System;
-using System.Xml.Schema;
-using Helpers;
+﻿using Helpers;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace MainMenuScripts
