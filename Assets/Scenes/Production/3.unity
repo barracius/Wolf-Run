@@ -44626,7 +44626,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 6485261134382029932, guid: 3d9747039f2003546a3b30626e805042, type: 3}
   - {fileID: 5061606481408737196, guid: 5c745c027c77bd740bf772e38d0a01b7, type: 3}
-  - {fileID: 1120684104306324642, guid: 535bcb58f159294488fb6f89e3eafa2c, type: 3}
+  - {fileID: 6037084354348173834, guid: 0d36811f6d344f34c9be9cefd587e540, type: 3}
   spawnPoint: {fileID: 266567647}
   spawnRate: 2
   timeToBoost: 5

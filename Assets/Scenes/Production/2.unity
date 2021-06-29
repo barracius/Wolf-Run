@@ -40347,9 +40347,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 2044472630}
   obstacles:
-  - {fileID: 7650916364400532982, guid: d55cab08ca5569b4ca92e3d276e1b221, type: 3}
+  - {fileID: 7650916364400532982, guid: 267521b76dbe14341aedbd01012c4508, type: 3}
   - {fileID: 4995264051849537155, guid: 4683b480c7916b94fbae33e828d684ce, type: 3}
-  - {fileID: 1120684104306324642, guid: 535bcb58f159294488fb6f89e3eafa2c, type: 3}
+  - {fileID: 1120684104306324642, guid: b53ff6bda03e71b468b5618ccf8bdbd4, type: 3}
   spawnPoint: {fileID: 553867735}
   spawnRate: 2
   timeToBoost: 5
