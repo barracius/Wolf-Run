@@ -13,6 +13,7 @@ namespace StageScripts.Wolfie.Bite
         private bool _isBiting;
         private MainController _wolfieMainController;
         public event Action OnStopBiting;
+        public AudioSource audioSource;
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace StageScripts.Wolfie.Bite
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.tag.Contains("Bite")) return;
+            audioSource.Play();
             var obstacleToDelete = other.gameObject;
             MainScript.instance.obstaclesInScene.RemoveAt(0);
             Destroy(obstacleToDelete);
