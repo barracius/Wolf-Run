@@ -40721,7 +40721,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1531586193}
         m_TargetAssemblyTypeName: StageScripts.MainScript, Assembly-CSharp
         m_MethodName: OnPauseButtonPress
         m_Mode: 1
