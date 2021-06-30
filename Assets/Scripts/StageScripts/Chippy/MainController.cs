@@ -14,6 +14,7 @@ namespace StageScripts.Chippy
         private Transform _powerUpSpawner;
         private bool _onPause = true;
         private bool _waiting = false;
+        public AudioSource audioSource;
 
         private void Start()
         {
@@ -41,6 +42,7 @@ namespace StageScripts.Chippy
 
         private void TossPowerUp()
         {
+            audioSource.Play();
             var powerUp = Random.Range(0, powerUps.Length);
             MainScript.instance.obstaclesInScene.Add(Instantiate(powerUps[powerUp], _powerUpSpawner.position, Quaternion.identity));
         }

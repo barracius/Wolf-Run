@@ -22,6 +22,8 @@ namespace AchievementsScripts
         private Text _progressBarText;
         private GameObject _claimText;
         private GameObject _claimedText;
+        public AudioSource audioSource;
+        public AudioClip achieveSound;
 
         private void Start()
         {
@@ -102,6 +104,7 @@ namespace AchievementsScripts
         public void OnClaimClick()
         {
             if (!_readyToClaim) return;
+            audioSource.PlayOneShot(achieveSound);
             switch (typeOfReward)
             {
                 case SkinType.Wolfie:

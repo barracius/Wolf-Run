@@ -29,7 +29,7 @@
 
     public enum GlobalVariables
     {
-        NumberOfStages = 4
+        NumberOfStages = 3
     }
 
     public enum TypeOfAchievement
